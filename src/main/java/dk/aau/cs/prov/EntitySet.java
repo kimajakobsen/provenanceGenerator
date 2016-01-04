@@ -3,12 +3,9 @@ package dk.aau.cs.prov;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 
 import dk.aau.cs.helper.PROV;
-import dk.aau.cs.main.Config;
-import dk.aau.cs.main.Counter;
 
 public class EntitySet extends Entity {
 	Resource sourceActivityName;

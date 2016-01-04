@@ -3,11 +3,9 @@ package dk.aau.cs.prov;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 
 import dk.aau.cs.helper.PROV;
-import dk.aau.cs.main.Config;
 
 public class Source extends Entity {
 	
@@ -18,7 +16,6 @@ public class Source extends Entity {
 	@Override
 	public Model createModel() {
 		Model model = ModelFactory.createDefaultModel();
-		
 		Resource subject = getSubject();
 		
 		model.add(subject,RDF.type,PROV.Entity);
@@ -27,7 +24,6 @@ public class Source extends Entity {
 		
 		return model;
 	}
-
 
 	@Override
 	public Resource getSubject() {

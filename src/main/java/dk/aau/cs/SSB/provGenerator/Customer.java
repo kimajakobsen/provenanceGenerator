@@ -1,8 +1,6 @@
 package dk.aau.cs.SSB.provGenerator;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -31,7 +29,7 @@ public class Customer extends ProvGenerator {
 //		sources.add("accountingDepartment");
 //		sources.add("Web form");
 //		sources.add("excelFile");
-//		sources.add("Public register");
+//		sources.add("Public register");O
 //		sources.add("Sales department");
 //		sources.add("Database");
 //		
