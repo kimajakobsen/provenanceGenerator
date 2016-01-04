@@ -25,9 +25,5 @@ public class Source extends Entity {
 		return model;
 	}
 
-	@Override
-	public Resource getSubject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }
