@@ -1,0 +1,274 @@
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix void:     <http://rdfs.org/ns/void#> .
+@prefix dct:      <http://purl.org/dc/terms/> .
+@prefix foaf:     <http://xmlns.com/foaf/0.1/> .
+@prefix org:      <http://www.w3.org/ns/org#> .
+
+@prefix qb:       <http://purl.org/linked-data/cube#> .
+
+@prefix sdmx-concept:    <http://purl.org/linked-data/sdmx/2009/concept#> .
+@prefix sdmx-dimension:  <http://purl.org/linked-data/sdmx/2009/dimension#> .
+@prefix sdmx-attribute:  <http://purl.org/linked-data/sdmx/2009/attribute#> .
+@prefix sdmx-measure:    <http://purl.org/linked-data/sdmx/2009/measure#> .
+@prefix sdmx-metadata:   <http://purl.org/linked-data/sdmx/2009/metadata#> .
+@prefix sdmx-code:       <http://purl.org/linked-data/sdmx/2009/code#> .
+@prefix sdmx-subject:    <http://purl.org/linked-data/sdmx/2009/subject#> .
+
+@prefix bsbm: <http://example.org/> .
+
+# -- Data Set --------------------------------------------
+
+bsbm:dataset-orig a qb:DataSet;
+    rdfs:label      "BSBM dataset"@en;
+    rdfs:comment    "Products described in terms of reviews, features, type, producer, and offers."@en;
+    qb:structure bsbm:dsd-bsbm-orig .
+        
+# -- Data structure definition ----------------------------
+
+bsbm:dsd-bsbm-orig a qb:DataStructureDefinition;
+    qb:component 
+    # The dimensions
+        [ qb:dimension bsbm:ProductType;        qb:order 2 ],
+        [ qb:dimension bsbm:ProductFeature;     qb:order 3 ],
+        [ qb:dimension bsbm:Producer;           qb:order 1 ],
+        [ qb:dimension bsbm:Vendor;             qb:order 5 ],
+        [ qb:dimension bsbm:Person;             qb:order 7 ],
+        [ qb:dimension bsbm:Review;             qb:order 6 ],
+        [ qb:dimension bsbm:Offer;              qb:order 4 ];
+        
+
+    # The measure(s)
+    qb:component [ qb:measure bsbm:lifeExpectancy];
+    
+    # The attributes
+    qb:component [ qb:attribute sdmx-attribute:unitMeasure; 
+                   qb:componentRequired "true"^^xsd:boolean;
+                   qb:componentAttachment qb:DataSet; ] ;
+   
+                   
+# -- Dimensions and measures  ----------------------------
+
+bsbm:refPeriod  a rdf:Property, qb:DimensionProperty;
+    rdfs:label "reference period"@en;
+    rdfs:subPropertyOf sdmx-dimension:refPeriod;
+    rdfs:range interval:Interval;
+    qb:concept sdmx-concept:refPeriod ;
+    .
+
+
+bsbm:refArea  a rdf:Property, qb:DimensionProperty;
+    rdfs:label "reference area"@en;
+    rdfs:subPropertyOf sdmx-dimension:refArea;
+    rdfs:range admingeo:UnitaryAuthority;
+    qb:concept sdmx-concept:refArea ;
+    .
+
+bsbm:lifeExpectancy  a rdf:Property, qb:MeasureProperty;
+    rdfs:label "life expectancy"@en;
+    rdfs:subPropertyOf sdmx-measure:obsValue;
+    rdfs:range xsd:decimal ;
+    .
+    
+# -- Observations -----------------------------------------
+
+# Column 1
+    
+bsbm:slice1 a qb:Slice;
+    qb:sliceStructure  bsbm:sliceByRegion ;
+    bsbm:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2004-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-M ;
+    qb:observation bsbm:o11, bsbm:o12, bsbm:o13, bsbm:o14 ;
+    .
+
+bsbm:o11 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:newport_00pr ;                  
+    bsbm:lifeExpectancy          76.7 ;
+    .
+    
+bsbm:o12 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:cardiff_00pt ;                  
+    bsbm:lifeExpectancy          78.7 ;
+    .
+
+bsbm:o13 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:monmouthshire_00pp ;                  
+    bsbm:lifeExpectancy          76.6 ;
+    .
+
+bsbm:o14 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:merthyr_tdfil_00ph ;
+    bsbm:lifeExpectancy          75.5 ;
+    .
+
+# Column 2
+    
+bsbm:slice2 a qb:Slice;
+    qb:sliceStructure  bsbm:sliceByRegion ;
+    bsbm:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2004-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-F ;
+    qb:observation bsbm:o21, bsbm:o22, bsbm:o23, bsbm:o24 ;
+    .
+
+bsbm:o21 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:newport_00pr ;                  
+    bsbm:lifeExpectancy          80.7 ;
+    .
+    
+bsbm:o22 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:cardiff_00pt ;                  
+    bsbm:lifeExpectancy          83.3 ;
+    .
+
+bsbm:o23 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:monmouthshire_00pp ;                  
+    bsbm:lifeExpectancy          81.3 ;
+    .
+
+bsbm:o24 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:merthyr_tdfil_00ph ;
+    bsbm:lifeExpectancy          79.1 ;
+    .
+
+# Column 3
+    
+bsbm:slice3 a qb:Slice;
+    qb:sliceStructure  bsbm:sliceByRegion ;
+    bsbm:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2005-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-M ;
+    qb:observation bsbm:o31, bsbm:o32, bsbm:o33, bsbm:o34 ;
+    .
+
+bsbm:o31 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:newport_00pr ;                  
+    bsbm:lifeExpectancy          77.1 ;
+    .
+    
+bsbm:o32 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:cardiff_00pt ;                  
+    bsbm:lifeExpectancy          78.6 ;
+    .
+
+bsbm:o33 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:monmouthshire_00pp ;                  
+    bsbm:lifeExpectancy          76.5 ;
+    .
+
+bsbm:o34 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:merthyr_tdfil_00ph ;
+    bsbm:lifeExpectancy          75.5 ;
+    .
+
+# Column 4
+    
+bsbm:slice4 a qb:Slice;
+    qb:sliceStructure  bsbm:sliceByRegion ;
+    bsbm:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2005-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-F ;
+    qb:observation bsbm:o41, bsbm:o42, bsbm:o43, bsbm:o44 ;
+    .
+
+bsbm:o41 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:newport_00pr ;                  
+    bsbm:lifeExpectancy          80.9 ;
+    .
+    
+bsbm:o42 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:cardiff_00pt ;                  
+    bsbm:lifeExpectancy          83.7 ;
+    .
+
+bsbm:o43 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:monmouthshire_00pp ;                  
+    bsbm:lifeExpectancy          81.5 ;
+    .
+
+bsbm:o44 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:merthyr_tdfil_00ph ;
+    bsbm:lifeExpectancy          79.4 ;
+    .
+
+# Column 5
+    
+bsbm:slice5 a qb:Slice;
+    qb:sliceStructure  bsbm:sliceByRegion ;
+    bsbm:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2006-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-M ;
+    qb:observation bsbm:o51, bsbm:o52, bsbm:o53, bsbm:o54 ;
+    .
+
+bsbm:o51 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:newport_00pr ;                  
+    bsbm:lifeExpectancy          77.0 ;
+    .
+    
+bsbm:o52 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:cardiff_00pt ;                  
+    bsbm:lifeExpectancy          78.7 ;
+    .
+
+bsbm:o53 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:monmouthshire_00pp ;                  
+    bsbm:lifeExpectancy          76.6 ;
+    .
+
+bsbm:o54 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:merthyr_tdfil_00ph ;
+    bsbm:lifeExpectancy          74.9 ;
+    .
+
+# Column 6
+    
+bsbm:slice6 a qb:Slice;
+    qb:sliceStructure  bsbm:sliceByRegion ;
+    bsbm:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2006-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-F ;
+    qb:observation bsbm:o61, bsbm:o62, bsbm:o63, bsbm:o64 ;
+    .
+
+bsbm:o61 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:newport_00pr ;                  
+    bsbm:lifeExpectancy          81.5 ;
+    .
+    
+bsbm:o62 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:cardiff_00pt ;                  
+    bsbm:lifeExpectancy          83.4 ;
+    .
+
+bsbm:o63 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:monmouthshire_00pp ;                  
+    bsbm:lifeExpectancy          81.7 ;
+    .
+
+bsbm:o64 a qb:Observation;
+    qb:dataSet  bsbm:dataset-orig ;
+    bsbm:refArea                 ex-geo:merthyr_tdfil_00ph ;
+    bsbm:lifeExpectancy          79.6 ;
+    .
