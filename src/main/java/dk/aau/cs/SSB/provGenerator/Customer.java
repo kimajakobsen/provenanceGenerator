@@ -9,7 +9,7 @@ import org.apache.jena.rdf.model.Statement;
 import dk.aau.cs.prov.Activity;
 import dk.aau.cs.prov.Cleaner;
 import dk.aau.cs.prov.Entity;
-import dk.aau.cs.prov.EntitySet;
+import dk.aau.cs.prov.IntemediateResults;
 import dk.aau.cs.prov.Merge;
 import dk.aau.cs.prov.Source;
 
@@ -53,17 +53,17 @@ public class Customer extends ProvGenerator {
 		Entity source3 = new Source();
 		
 		Activity cleaner1 = new Cleaner(source1,level1);
-		Entity entity1 = new EntitySet(cleaner1);
+		Entity entity1 = new IntemediateResults(cleaner1);
 		Activity cleaner2 = new Cleaner(entity1,level2);
-		Entity entity2 = new EntitySet(cleaner2);
+		Entity entity2 = new IntemediateResults(cleaner2);
 		
 		Activity cleaner3 = new Cleaner(source2,level1);
-		Entity entity3 = new EntitySet(cleaner3);
+		Entity entity3 = new IntemediateResults(cleaner3);
 		Activity merge1 = new Merge(entity3, source3,level2);
-		Entity entity4 = new EntitySet(merge1);
+		Entity entity4 = new IntemediateResults(merge1);
 		
 		Activity merge2 = new Merge(entity4, entity2,level3);
-		Entity entity5 = new EntitySet(merge2);
+		Entity entity5 = new IntemediateResults(merge2);
 		
 		model.add(source1.createModel());
 		model.add(source2.createModel());

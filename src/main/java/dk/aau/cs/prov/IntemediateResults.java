@@ -7,11 +7,11 @@ import org.apache.jena.vocabulary.RDF;
 
 import dk.aau.cs.helper.PROV;
 
-public class EntitySet extends Entity {
+public class IntemediateResults extends Entity {
 	Resource sourceActivityName;
 	Activity sourceActivity;
 
-	public EntitySet(Activity cleaner1) {
+	public IntemediateResults(Activity cleaner1) {
 		super("cleaner");
 		sourceActivityName = cleaner1.getSubject();
 		cleaner1.setGeneratedData(this);
