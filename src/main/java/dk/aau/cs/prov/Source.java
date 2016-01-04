@@ -10,27 +10,28 @@ import dk.aau.cs.helper.PROV;
 import dk.aau.cs.main.Config;
 
 public class Source extends Entity {
-	protected String identifier;
 	
-	public Source(String name) {
-		identifier = name;
+	public Source() {
+		super("source");
 	}
 
 	@Override
 	public Model createModel() {
 		Model model = ModelFactory.createDefaultModel();
 		
-		Resource subject = getURI();
+		Resource subject = getSubject();
 		
 		model.add(subject,RDF.type,PROV.Entity);
 		//TODO Attributed to skal være en agent. se prov o
-		model.add(subject,PROV.wasAttributedTo,ResourceFactory.createResource(PROV.provNS+identifier));
+		//model.add(subject,PROV.wasAttributedTo,SOME ACTOR);
 		
 		return model;
 	}
 
+
 	@Override
-	public Resource getURI() {
-		return ResourceFactory.createResource(Config.getNamespace()+"source/"+identifier+"/");
+	public Resource getSubject() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -17,33 +17,31 @@ import dk.aau.cs.prov.Source;
 
 public class Customer extends ProvGenerator {
 
-	private ArrayList<String> sources = new ArrayList<String>();
-	private ArrayList<String> cleaners = new ArrayList<String>();
-	private ArrayList<String> actors = new ArrayList<String>();
-	private ArrayList<String> mergers = new ArrayList<String>();
+//	private ArrayList<String> sources = new ArrayList<String>();
+//	private ArrayList<String> cleaners = new ArrayList<String>();
+//	private ArrayList<String> actors = new ArrayList<String>();
+//	private ArrayList<String> mergers = new ArrayList<String>();
 	
 	Pair<LocalDateTime, LocalDateTime> level1 = IntervalManager.getIntervalLevel(1);
 	Pair<LocalDateTime, LocalDateTime> level2 = IntervalManager.getIntervalLevel(2);
 	Pair<LocalDateTime, LocalDateTime> level3 = IntervalManager.getIntervalLevel(3);
 	
 	public Customer() {
-		sources.add("prDepartment");
-		sources.add("accountingDepartment");
-		//sources.add("Web form");
-		sources.add("excelFile");
-		//sources.add("Public register");
-		//sources.add("Sales department");
-		//sources.add("Database");
-		
-		cleaners.add("removeDoubleQuotes");
-		cleaners.add("toLowerCase");
-		cleaners.add("removeLocalizedCharecters");
-		
-		mergers.add("");
-		mergers.add("");
-		mergers.add("");
-		
-		
+//		sources.add("prDepartment");
+//		sources.add("accountingDepartment");
+//		sources.add("Web form");
+//		sources.add("excelFile");
+//		sources.add("Public register");
+//		sources.add("Sales department");
+//		sources.add("Database");
+//		
+//		cleaners.add("removeDoubleQuotes");
+//		cleaners.add("toLowerCase");
+//		cleaners.add("removeLocalizedCharecters");
+//		
+//		mergers.add("");
+//		mergers.add("");
+//		mergers.add("");
 	}
 	
 	@Override
@@ -52,21 +50,21 @@ public class Customer extends ProvGenerator {
 		Model model = ModelFactory.createDefaultModel();
 		//TODO add actor
 		
-		Entity source1 = new Source(sources.remove(0));
-		Entity source2 = new Source(sources.remove(0));
-		Entity source3 = new Source(sources.remove(0));
+		Entity source1 = new Source();
+		Entity source2 = new Source();
+		Entity source3 = new Source();
 		
-		Activity cleaner1 = new Cleaner(source1,cleaners.remove(0),level1);
+		Activity cleaner1 = new Cleaner(source1,level1);
 		Entity entity1 = new EntitySet(cleaner1);
-		Activity cleaner2 = new Cleaner(entity1,cleaners.remove(0),level2);
+		Activity cleaner2 = new Cleaner(entity1,level2);
 		Entity entity2 = new EntitySet(cleaner2);
 		
-		Activity cleaner3 = new Cleaner(source2,cleaners.remove(0),level3);
+		Activity cleaner3 = new Cleaner(source2,level1);
 		Entity entity3 = new EntitySet(cleaner3);
-		Activity merge1 = new Merge(entity3, source3);
+		Activity merge1 = new Merge(entity3, source3,level2);
 		Entity entity4 = new EntitySet(merge1);
 		
-		Activity merge2 = new Merge(entity4, entity2);
+		Activity merge2 = new Merge(entity4, entity2,level3);
 		Entity entity5 = new EntitySet(merge2);
 		
 		model.add(source1.createModel());

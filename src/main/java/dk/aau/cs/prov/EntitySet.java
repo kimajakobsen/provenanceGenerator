@@ -15,21 +15,17 @@ public class EntitySet extends Entity {
 	Activity sourceActivity;
 
 	public EntitySet(Activity cleaner1) {
+		super("cleaner");
 		sourceActivityName = cleaner1.getSubject();
 		cleaner1.setGeneratedData(this);
 		sourceActivity = cleaner1;
 	}
 
 	@Override
-	public Resource getURI() {
-		return ResourceFactory.createResource(Config.getNamespace()+"entity/"+Counter.getCounter("entity")+"/");
-	}
-
-	@Override
 	public Model createModel() {
 		Model model = ModelFactory.createDefaultModel();
 		
-		Resource subject = getURI();
+		Resource subject = getSubject();
 		
 		model.add(subject,RDF.type,PROV.Entity);
 		model.add(subject,PROV.wasGeneratedBy,sourceActivityName);
@@ -37,5 +33,9 @@ public class EntitySet extends Entity {
 		
 		return model;
 	}
+
+
+
+
 
 }

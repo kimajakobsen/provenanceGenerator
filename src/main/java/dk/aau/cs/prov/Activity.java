@@ -9,11 +9,22 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
-public abstract class Activity {
+import dk.aau.cs.main.Config;
+import dk.aau.cs.main.Counter;
+
+public abstract class Activity extends Node {
 	Pair<LocalDateTime,LocalDateTime> timeInteval;
-
-	public abstract Resource getSubject();
-
+	Resource activitySubject;
+	
+	public Activity(String name){
+		activitySubject = ResourceFactory.createResource(Config.getNamespace()+name+"/"+Counter.getCounter(name)+"/");
+	}
+	
+	@Override
+	public Resource getSubject() {
+		return activitySubject;
+	}
+	
 	public abstract Model createModel();
 	
 	public abstract void setGeneratedData(Entity output);

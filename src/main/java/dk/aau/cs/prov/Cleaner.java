@@ -16,32 +16,26 @@ import dk.aau.cs.main.Counter;
 
 public class Cleaner extends Activity {
 	Entity source;
-	
 	String name;
-	Resource activitySubject;
 	Model model;
-	//int maxDuration;
-	
 
-	public Cleaner(Entity source1, String name, Pair<LocalDateTime, LocalDateTime> pair) {
+	public Cleaner(Entity source1, Pair<LocalDateTime, LocalDateTime> pair) {
+		super("cleaner");
 		source = source1;
 		timeInteval = pair;
-		this.name = name;
 		
 		model = ModelFactory.createDefaultModel();
-		activitySubject = ResourceFactory.createResource(Config.getNamespace()+"filter/"+Counter.getCounter("filter")+"/");
-		//maxDuration = timeInteval.getRight().compareTo(timeInteval.getLeft());
 	}
 
 	@Override
 	public void setGeneratedData(Entity output) {
-		model.add(activitySubject,PROV.generated,output.getURI());
+		model.add(activitySubject,PROV.generated,output.getSubject());
 	}
 
 	@Override
 	public Model createModel() {
 		model.add(activitySubject,RDF.type,PROV.Entity); 
-		model.add(activitySubject,PROV.used,source.getURI());
+		model.add(activitySubject,PROV.used,source.getSubject());
 		model.add(activitySubject,PROV.startedAtTime,getStartTime());
 		model.add(activitySubject,PROV.endedAtTime,getFinishTime());
 		
