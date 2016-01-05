@@ -15,11 +15,11 @@ public class Merge extends Activity {
 	Entity source2;
 	
 
-	public Merge(Entity source1, Entity source2, Pair<LocalDateTime, LocalDateTime> level2) {
+	public Merge(Entity source1, Entity source2, Pair<LocalDateTime, LocalDateTime> pair) {
 		super("merge");
 		this.source1 = source1;
 		this.source2 = source2;
-		
+		timeInteval = pair;
 		model = ModelFactory.createDefaultModel();
 	}
 
