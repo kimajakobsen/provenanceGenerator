@@ -7,12 +7,12 @@ import org.apache.jena.vocabulary.RDF;
 
 import dk.aau.cs.helper.PROV;
 
-public class IntemediateResults extends Entity {
+public class ProvenanceEntity extends Entity {
 	Resource sourceActivityName;
 	Activity sourceActivity;
 
-	public IntemediateResults(Activity cleaner1) {
-		super("cleaner");
+	public ProvenanceEntity(Activity cleaner1) {
+		super("entity");
 		sourceActivityName = cleaner1.getSubject();
 		cleaner1.setGeneratedData(this);
 		sourceActivity = cleaner1;
