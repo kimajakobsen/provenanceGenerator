@@ -9,6 +9,7 @@ import dk.aau.cs.main.Counter;
 
 public abstract class Entity extends Node {
 	Resource entitySubject;
+	Actor actor;
 	
 	Entity(String name) {
 		entitySubject = ResourceFactory.createResource(Config.getNamespace()+name+"/"+Counter.getCounter(name)+"/");

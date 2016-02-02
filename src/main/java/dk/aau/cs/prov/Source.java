@@ -9,8 +9,9 @@ import dk.aau.cs.helper.PROV;
 
 public class Source extends Entity {
 	
-	public Source() {
+	public Source(Actor actor) {
 		super("source");
+		this.actor = actor;
 	}
 
 	@Override
@@ -19,11 +20,11 @@ public class Source extends Entity {
 		Resource subject = getSubject();
 		
 		model.add(subject,RDF.type,PROV.Entity);
-		//TODO Attributed to skal være en agent. se prov o
-		//model.add(subject,PROV.wasAttributedTo,SOME ACTOR);
-		
+		model.add(subject,PROV.wasAttributedTo,actor.getSubject());
 		return model;
 	}
+
+
 
 
 }
