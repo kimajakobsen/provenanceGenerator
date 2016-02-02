@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream.PutField;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -36,15 +37,16 @@ public class SSBLoader extends AbstractLoader {
 	@Override
 	public void loadToTDB(String location) {
 		Dataset dataset = TDBFactory.createDataset(location) ;
-		dataset.begin(ReadWrite.WRITE) ;
-		 try {
-			 for (Entry<String, Model> entry : models.entries()) {
-				dataset.addNamedModel(entry.getKey(), entry.getValue());
-			 }
-			 dataset.commit() ;
-		 } finally { 
-			 dataset.end() ; 
-		 }
+		System.out.println("there are "+getModelContainer().entrySet().size()+" Models");
+		for (Entry<String, Model> entry : getModelContainer().entrySet()) {
+			dataset.begin(ReadWrite.WRITE) ;
+			System.out.println("Writing the graph "+entry.getKey()+" storage.");
+			dataset.addNamedModel(entry.getKey(), entry.getValue());
+			 
+			dataset.commit() ;
+		}
+		dataset.end();
+		 
 	}
 	
 	
@@ -74,10 +76,11 @@ public class SSBLoader extends AbstractLoader {
 						
 						if (provenance) {
 							ProvGenerator provenanceGenerator = ProvenanceBuilder.build(schema);
-							models.put(schema.getProvenanceGraphName(),provenanceGenerator.getProvenanceTriples(s));
-							models.put(provenanceGenerator.getSubjectOfInformationEntityResource(), informationResource);
+							Model temp = provenanceGenerator.getProvenanceTriples(s);
+							insertIntoModelContainer(schema.getProvenanceGraphName(), temp);
+							insertIntoModelContainer(provenanceGenerator.getProvenanceIdentifier(), informationResource);
 						} else {
-							models.put("", informationResource);
+							insertIntoModelContainer("", informationResource);
 						}
 						schemaPropertyIndex++;
 					}
