@@ -16,11 +16,11 @@ public class ProvenanceBuilder {
 		} else if (name == "customer") {
 			return new Customer();
 		} else if (name == "date") {
-			return null;
+			return new Date();
 		} else if (name == "supplier") {
-			return null;
+			return new Supplier();
 		} else if (name == "part") {
-			return null;
+			return new Part();
 		} else {
 			return null;
 		}
