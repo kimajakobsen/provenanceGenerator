@@ -49,7 +49,7 @@ public class App
 			}
 		    
 		    if (line.hasOption( "load" )) {
-		    	loader = new SSBLoader(Arrays.asList(line.getOptionValue("load").split(" ")));
+		    	loader = new SSBLoader(Arrays.asList(line.getOptionValue("load").split(",")));
 		    	loader.run(line.hasOption( "provenance"));
 		    }
 		    
