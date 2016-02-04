@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.jena.ext.com.google.common.collect.HashMultimap;
-import org.apache.jena.ext.com.google.common.collect.Multimap;
 import org.apache.jena.rdf.model.Model;
 
 public abstract class AbstractLoader {

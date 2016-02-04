@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 
 import javax.management.InvalidAttributeValueException;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
