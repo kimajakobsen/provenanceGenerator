@@ -41,7 +41,6 @@ public class SSBLoader extends AbstractLoader {
 			dataset.begin(ReadWrite.WRITE) ;
 			System.out.println("Writing the graph "+entry.getKey()+" storage.");
 			dataset.addNamedModel(entry.getKey(), entry.getValue());
-			 
 			dataset.commit() ;
 		}
 		dataset.end();

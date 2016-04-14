@@ -14,14 +14,12 @@ public class Merge extends Activity {
 	Entity source2;
 	RDFNode actorSubject;
 	
-
 	public Merge(Entity source1, Entity source2, Pair<LocalDateTime, LocalDateTime> pair, Actor actor) {
 		super("merge");
 		this.source1 = source1;
 		this.source2 = source2;
 		timeInteval = pair;
 		actorSubject = actor.getSubject();
-		
 	}
 
 	@Override

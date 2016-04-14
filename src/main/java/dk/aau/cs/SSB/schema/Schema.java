@@ -98,7 +98,6 @@ public abstract class Schema {
 		Date date = cal.getTime();
 		TimeZone tz = cal.getTimeZone();
 
-
 		//Returns the number of milliseconds since January 1, 1970, 00:00:00 GMT 
 		long msFromEpochGmt = date.getTime();
 
@@ -109,7 +108,6 @@ public abstract class Schema {
 		Calendar gmtCal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 		gmtCal.setTime(date);
 		gmtCal.add(Calendar.MILLISECOND, offsetFromUTC);
-
 
 		return gmtCal;
 	}
