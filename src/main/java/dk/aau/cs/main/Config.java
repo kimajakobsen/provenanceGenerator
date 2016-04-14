@@ -4,7 +4,7 @@ import org.apache.jena.shared.ConfigException;
 
 public class Config {
 
-	private static String namespace = "www.example.com/";
+	private static String namespace = "http://example.com/";
 	private static String provenanceNamespace = namespace+"provenance/";
 	private static int counter = 0;
 	private static boolean fresh = false;
