@@ -12,7 +12,7 @@ public class ProvenanceBuilder {
 		String name = schema.getIdentifierName();
 		
 		if (name == "lineorder") {
-			return null;
+			return new Lineorder();
 		} else if (name == "customer") {
 			return new Customer();
 		} else if (name == "date") {
