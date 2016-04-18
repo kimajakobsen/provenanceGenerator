@@ -6,6 +6,7 @@ public class Config {
 
 	private static String namespace = "http://example.com/";
 	private static String provenanceNamespace = namespace+"provenance/";
+	private static String cubeName = namespace+"cube/";
 	private static int counter = 0;
 	private static boolean fresh = false;
 
@@ -33,6 +34,21 @@ public class Config {
 
 	public static void setFresh(boolean fresh) {
 		Config.fresh = fresh;
+	}
+
+	public static String getCubeName() {
+		return cubeName;
+	}
+
+	public static String getOntologyPath() {
+		return "src/main/resources/SSB.ontology/qb4o.ttl";
+	}
+
+	public static String getCubeStructureGraphName() {
+		return namespace+"CubeStructureMetadata/";
+	}
+	public static String getCubeInstanceGraphName() {
+		return namespace+"CubeInstanceMetadata";
 	}
 
 
