@@ -1,5 +1,14 @@
 package dk.aau.cs.SSB.schema;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+
+import dk.aau.cs.helper.QB4OLAP;
+import dk.aau.cs.main.Config;
+
 public class Date extends Schema {
 
 	public Date() {
@@ -18,23 +27,20 @@ public class Date extends Schema {
 		schema.put(11, new SchemaPropertySet("weeknuminyear",		"", false,	"int"));
 		schema.put(12, new SchemaPropertySet("sellingseason",		"", false,	"str"));
 		schema.put(13, new SchemaPropertySet("lastdayinweek",		"", false,	"bool"));
-		schema.put(14, new SchemaPropertySet("lastdayinmonth",		"", false,	"bool"));
+		schema.put(14, new SchemaPropertySet("notlastdayinmonth",	"", false,	"bool"));
 		schema.put(15, new SchemaPropertySet("holiday",				"", false,	"bool"));
 		schema.put(16, new SchemaPropertySet("weekday",				"", false,	"bool"));
 	}
 	
-// Fixed in the generator.
-//	public RDFNode getObject(int index, String value) throws InvalidAttributeValueException {
-//		//inverts the lastdayinmonth value because it is generated reverse
-//		if (index == 14) {
-//			if (value.equals("0")) {
-//				value = "1";
-//			} else {
-//				value = "0";
-//			}
-//		} 
-//		return super.getObject(index, value);
-//		
-//	}
-
+	@Override
+	public Model getCubeInstanceMetadataTriples(Resource subject) {
+		Model model = ModelFactory.createDefaultModel();
+	
+		RDFNode orderDate = ResourceFactory.createResource(Config.getNamespace()+"orderDate");
+		model.add(subject, QB4OLAP.memberOf, orderDate );
+		
+		RDFNode commitDate = ResourceFactory.createResource(Config.getNamespace()+"commitDate");
+		model.add(subject, QB4OLAP.memberOf, commitDate );
+		return model;
+	}
 }

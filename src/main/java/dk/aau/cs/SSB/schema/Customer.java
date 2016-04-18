@@ -1,5 +1,14 @@
 package dk.aau.cs.SSB.schema;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+
+import dk.aau.cs.helper.QB4OLAP;
+import dk.aau.cs.main.Config;
+
 
 public class Customer extends Schema {
 
@@ -13,5 +22,14 @@ public class Customer extends Schema {
 		schema.put(5, new SchemaPropertySet("region", 	"", false, "str"));
 		schema.put(6, new SchemaPropertySet("phone", 	"", false, "other"));
 		schema.put(7, new SchemaPropertySet("mktsegment", "", false, "str"));
+	}
+
+	@Override
+	public Model getCubeInstanceMetadataTriples(Resource subject) {
+		Model model = ModelFactory.createDefaultModel();
+	
+		RDFNode object = ResourceFactory.createResource(Config.getNamespace()+"customer");
+		model.add(subject, QB4OLAP.memberOf, object );
+		return model;
 	}
 }

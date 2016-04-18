@@ -12,8 +12,8 @@ import java.util.TimeZone;
 import javax.management.InvalidAttributeValueException;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.ConfigException;
@@ -30,6 +30,7 @@ public abstract class Schema {
 		this.identifierName = identifierName;
 	}
 
+
 	public Resource getIRI(String[] line) {
 		String name = namespace+identifierName;
 		for (Entry<Integer, SchemaPropertySet> iterable_element : schema.entrySet()) {
@@ -45,17 +46,10 @@ public abstract class Schema {
 		return ResourceFactory.createProperty(namespace,schema.get(index).getName());
 	}
 
-	public RDFNode getObject(int index, String value) throws InvalidAttributeValueException, ParseException {
-		if (schema.get(index).getObjectPropertyName().equals("")) {
-			return createLiteralWithType(schema.get(index).getType(),value);
-			// Literal
-		} else {
-			// Object Property
-			return ResourceFactory.createResource(namespace+schema.get(index).getObjectPropertyName()+value+"/");
-		}
-	}
+
 	
-	private Literal createLiteralWithType(String type, String input) throws InvalidAttributeValueException, ParseException  {
+	public Literal createLiteralWithType(int index, String input) throws InvalidAttributeValueException, ParseException  {
+		String type = schema.get(index).getType();
 		Literal literal;
 		switch (type) {
 		case "int":
@@ -124,4 +118,32 @@ public abstract class Schema {
 		return identifierName;
 	}
 
+	
+	public HashMap<Integer, SchemaPropertySet> getSchema() {
+		return schema;
+	}
+	
+	public int size() {
+		return schema.size();
+	}
+
+	public abstract Model getCubeInstanceMetadataTriples(Resource subject);
+
+	public Boolean isForeignKeyToLevelMember(int schemaPropertyIndex) {
+		if (!schema.get(schemaPropertyIndex).equals("")) {
+			return true;
+		} 
+		return false;
+	}
+	
+	public String getObjectPropertyName(int index) {
+		return schema.get(index).getObjectPropertyName();
+	}
+
+	public Property getLevelProperty(int schemaPropertyIndex) {
+		Property predicate = ResourceFactory.createProperty(Config.getNamespace()+getObjectPropertyName(schemaPropertyIndex));
+		return predicate;
+	}
+
+	
 }

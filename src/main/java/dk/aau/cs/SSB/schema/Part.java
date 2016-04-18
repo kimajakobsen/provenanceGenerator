@@ -1,5 +1,14 @@
 package dk.aau.cs.SSB.schema;
 
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+
+import dk.aau.cs.helper.QB4OLAP;
+import dk.aau.cs.main.Config;
+
 
 public class Part extends Schema {
 
@@ -17,4 +26,11 @@ public class Part extends Schema {
 		schema.put(8, new SchemaPropertySet("container","", false,	"str"));
 	}
 
+	@Override
+	public Model getCubeInstanceMetadataTriples(Resource subject) {
+		Model model = ModelFactory.createDefaultModel();
+		RDFNode part = ResourceFactory.createResource(Config.getNamespace()+"part");
+		model.add(subject, QB4OLAP.memberOf, part );
+		return model;
+	}
 }

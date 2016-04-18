@@ -17,11 +17,12 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.tdb.TDBFactory;
-
+import dk.aau.cs.SSB.cubeGenerator.QB4OLAPGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvenanceBuilder;
 import dk.aau.cs.SSB.schema.Schema;
 import dk.aau.cs.SSB.schema.SchemaBuilder;
+import dk.aau.cs.main.Config;
 
 public class SSBLoader extends AbstractLoader {
 
@@ -44,7 +45,6 @@ public class SSBLoader extends AbstractLoader {
 			dataset.commit() ;
 		}
 		dataset.end();
-		 
 	}
 	
 	
@@ -52,30 +52,50 @@ public class SSBLoader extends AbstractLoader {
 		BufferedReader bufferReader = null;
 		String rawLine = "";
 		String cvsSplitBy = "\\|";
+		
+		//Get cube metadata triples
+		Model cubeStructure = QB4OLAPGenerator.getStructureTriples();
+		insertIntoModelContainer(Config.getCubeStructureGraphName(), cubeStructure);
 
 		for (String csvFile : files) {
 			try {
 				bufferReader = new BufferedReader(new FileReader(csvFile));
 				Schema schema = new SchemaBuilder().build(csvFile);
 				
+				//Get cube metadata triples depending on dimensions
+				QB4OLAPGenerator qb4olapGenerator = new QB4OLAPGenerator(schema);
+				//cubeStructure = qb4olapGenerator.getStructureTriples();
+				//insertIntoModelContainer(schema.getCubeStructureGraphName(), cubeStructure);
+				
+				
 				while ((rawLine = bufferReader.readLine()) != null) {
 					String[] line = rawLine.split(cvsSplitBy);
-					
 					Resource subject = schema.getIRI(line);
+					
+					insertIntoModelContainer(Config.getCubeInstanceGraphName(), qb4olapGenerator.getInstanceTriples(subject));
 					
 					int schemaPropertyIndex = 0;
 					for (String field : line) {
-						Property predicate = schema.getProperty(schemaPropertyIndex);
-						RDFNode object = schema.getObject(schemaPropertyIndex,field);
-						
 						Model informationResource = ModelFactory.createDefaultModel();
-						Statement s = ResourceFactory.createStatement(subject, predicate, object);
-						informationResource.add(s);
+						Model cubeInstanceMetadata = ModelFactory.createDefaultModel();
+						Property predicate = schema.getProperty(schemaPropertyIndex);
+						Statement s;
+						RDFNode object;
+						if (!schema.getObjectPropertyName(schemaPropertyIndex).equals("")) { //object
+							 object = ResourceFactory.createResource(Config.getNamespace()+schema.getObjectPropertyName(schemaPropertyIndex)+field+"/"); // objectProperty
+							 s = ResourceFactory.createStatement(subject, predicate, object);
+							 cubeInstanceMetadata.add(s);
+							 insertIntoModelContainer(Config.getCubeInstanceGraphName(), cubeInstanceMetadata);
+						} else { // Literal
+							object = schema.createLiteralWithType(schemaPropertyIndex,field); 
+							s = ResourceFactory.createStatement(subject, predicate, object);
+							informationResource.add(s);
+						}
 						
 						if (provenance) {
 							ProvGenerator provenanceGenerator = ProvenanceBuilder.build(schema);
-							Model temp = provenanceGenerator.getProvenanceTriples(s);
-							insertIntoModelContainer(schema.getProvenanceGraphName(), temp);
+							Model provenanceModel = provenanceGenerator.getProvenanceTriples(s);
+							insertIntoModelContainer(schema.getProvenanceGraphName(), provenanceModel);
 							insertIntoModelContainer(provenanceGenerator.getProvenanceIdentifier(), informationResource);
 						} else {
 							insertIntoModelContainer("", informationResource);
