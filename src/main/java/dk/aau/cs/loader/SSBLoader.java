@@ -47,7 +47,6 @@ public class SSBLoader extends AbstractLoader {
 		dataset.end();
 	}
 	
-	
 	public void run (boolean provenance) {
 		BufferedReader bufferReader = null;
 		String rawLine = "";

@@ -1,6 +1,5 @@
 package dk.aau.cs.SSB.schema;
 
-
 public class SchemaPropertySet {
 
 	private String name;
@@ -14,19 +13,15 @@ public class SchemaPropertySet {
 		this.isPartOfKey = isPartOfKey;
 		this.setType(type);
 	}
-	
 	public SchemaPropertySet(String name, String objectPropertyName, boolean isPartOfKey) {
 		this(name,objectPropertyName,isPartOfKey,"");
 	}
-	
 	public SchemaPropertySet(String name, String objectPropertyName) {
 		this(name,objectPropertyName,false);
 	}
-	
 	public SchemaPropertySet(String name) {
 		this(name,"",false);
 	}
-	
 	public String getName() {
 		return name;
 	}
@@ -46,11 +41,9 @@ public class SchemaPropertySet {
 			Boolean isInverseFunctionalProperty) {
 		this.isPartOfKey = isInverseFunctionalProperty;
 	}
-	
 	public String getType() {
 		return type;
 	}
-
 	public void setType(String type) {
 		this.type = type;
 	}
