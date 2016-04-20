@@ -9,6 +9,8 @@ public class Config {
 	private static String cubeName = namespace+"cube/";
 	private static int counter = 0;
 	private static boolean fresh = false;
+	private static String databasePath = null;
+	private static int batchSize;
 
 	public static String getNamespace() {
 		return namespace;
@@ -51,6 +53,21 @@ public class Config {
 		return namespace+"CubeInstanceMetadata";
 	}
 
+	public static void setDatabasePath(String optionValue) {
+		Config.databasePath = optionValue;
+	}
+	
+	public static String getDatabasePath() {
+		return databasePath;
+	}
+
+	public static void setBatchSize(int i) {
+		Config.batchSize = i;
+	}
+
+	public static int getBatchSize() {
+		return batchSize;
+	}
 
 	
 	
