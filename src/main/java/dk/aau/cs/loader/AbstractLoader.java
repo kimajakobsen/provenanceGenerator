@@ -36,6 +36,19 @@ public abstract class AbstractLoader {
 		}
 	}
 	
+	public void resetModelContainer() {
+		models.clear();
+	}
+	
+	public long getModelContainerSize() {
+		long size = 0;
+		for (Model model : models.values()) {
+			size += model.size();
+		}
+		return size;
+		
+	}
+	
 	public abstract void run(boolean b);
 	
 	
