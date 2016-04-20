@@ -53,14 +53,14 @@ public class App
 		    	loader.run(line.hasOption( "provenance"));
 		    }
 		    
-		    if (line.hasOption( "output" )) {
-		    	if (line.hasOption( "load" )) {
-		    		loader.loadToTDB(line.getOptionValue("output"));
-				} else {
-					System.out.println("No data has been loaded, use -load <file(s)>");
-					System.exit(0);
-				}
+		    if (!line.hasOption( "output" )) {
+		    	System.out.println("No output database, use -output <file(s)>");
+				System.exit(0);
+		    } else {
+		    	Config.setDatabasePath(line.getOptionValue("output"));
+		    	Config.setBatchSize(50000);
 		    }
+		    
 		}
 		catch( ParseException exp ) {
 			printHelp(exp, options);

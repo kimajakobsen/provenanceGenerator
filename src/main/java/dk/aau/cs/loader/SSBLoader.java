@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.jena.query.Dataset;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ReadWrite;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -17,6 +21,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.tdb.TDBFactory;
+
 import dk.aau.cs.SSB.cubeGenerator.QB4OLAPGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvenanceBuilder;
@@ -37,14 +42,26 @@ public class SSBLoader extends AbstractLoader {
 	@Override
 	public void loadToTDB(String location) {
 		Dataset dataset = TDBFactory.createDataset(location) ;
-		System.out.println("there are "+getModelContainer().entrySet().size()+" Models");
 		for (Entry<String, Model> entry : getModelContainer().entrySet()) {
 			dataset.begin(ReadWrite.WRITE) ;
-			System.out.println("Writing the graph "+entry.getKey()+" storage.");
-			dataset.addNamedModel(entry.getKey(), entry.getValue());
-			dataset.commit() ;
+			//countTriplesInTDB(dataset);
+			
+			Model model = ModelFactory.createDefaultModel();
+			model.add(dataset.getNamedModel(entry.getKey()));
+			model.add(entry.getValue());
+			System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
+			dataset.addNamedModel(entry.getKey(), model);
+			dataset.commit();
 		}
 		dataset.end();
+	}
+	
+	public void countTriplesInTDB(Dataset dataset) {
+		QueryExecution qExec = QueryExecutionFactory.create(
+	             "select (count(*) as ?count) { GRAPH ?G {?a ?b ?c} }",   dataset);
+	         ResultSet rs = qExec.execSelect() ;
+	         //ResultSetFormatter.out(rs) ;
+	         System.out.println(ResultSetFormatter.asText(rs));
 	}
 	
 	public void run (boolean provenance) {
@@ -101,6 +118,11 @@ public class SSBLoader extends AbstractLoader {
 						}
 						schemaPropertyIndex++;
 					}
+					if (getModelContainerSize() > Config.getBatchSize()) {
+						loadToTDB(Config.getDatabasePath());
+						resetModelContainer();
+						
+					}
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -118,6 +140,7 @@ public class SSBLoader extends AbstractLoader {
 				}
 			}
 		}
+		loadToTDB(Config.getDatabasePath());
 	}
 
 }
