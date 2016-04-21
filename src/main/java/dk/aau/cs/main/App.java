@@ -48,19 +48,18 @@ public class App
 		    	Config.setFresh(true);
 			}
 		    
-		    if (line.hasOption( "load" )) {
-		    	loader = new SSBLoader(Arrays.asList(line.getOptionValue("load").split(",")));
-		    	loader.run(line.hasOption( "provenance"));
-		    }
-		    
 		    if (!line.hasOption( "output" )) {
 		    	System.out.println("No output database, use -output <file(s)>");
 				System.exit(0);
 		    } else {
 		    	Config.setDatabasePath(line.getOptionValue("output"));
-		    	Config.setBatchSize(50000);
+		    	Config.setBatchSize(5000);
 		    }
 		    
+		    if (line.hasOption( "load" )) {
+		    	loader = new SSBLoader(Arrays.asList(line.getOptionValue("load").split(",")));
+		    	loader.run(line.hasOption( "provenance"));
+		    }
 		}
 		catch( ParseException exp ) {
 			printHelp(exp, options);
