@@ -41,6 +41,7 @@ public class SSBLoader extends AbstractLoader {
 	
 	@Override
 	public void loadToTDB(String location) {
+		System.out.println("writing "+ getModelContainerSize() +" triples to "+ location);
 		Dataset dataset = TDBFactory.createDataset(location) ;
 		for (Entry<String, Model> entry : getModelContainer().entrySet()) {
 			dataset.begin(ReadWrite.WRITE) ;
@@ -49,7 +50,7 @@ public class SSBLoader extends AbstractLoader {
 			Model model = ModelFactory.createDefaultModel();
 			model.add(dataset.getNamedModel(entry.getKey()));
 			model.add(entry.getValue());
-			System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
+			//System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
 			dataset.addNamedModel(entry.getKey(), model);
 			dataset.commit();
 		}
