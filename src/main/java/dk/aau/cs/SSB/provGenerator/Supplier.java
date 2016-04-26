@@ -26,7 +26,6 @@ public class Supplier extends ProvGenerator {
 	String provenanceIdentifier;
 	
 	public Supplier() {
-		
 		model = ModelFactory.createDefaultModel();
 		
 		Actor actor1 = new Person();
@@ -36,7 +35,6 @@ public class Supplier extends ProvGenerator {
 		Actor actor5 = new Organization();
 		Actor actor6 = new Organization();
 		Actor actor7 = new Organization();
-		
 		
 		Entity source1 = new Source(actor5);
 		Entity source2 = new Source(actor5);
@@ -55,7 +53,6 @@ public class Supplier extends ProvGenerator {
 		Entity entity4 = new ProvenanceEntity(cleaner1);
 		
 		provenanceIdentifier = entity4.getSubject().toString();
-		
 		
 		model.add(source1.createModel());
 		model.add(source2.createModel());
@@ -76,7 +73,6 @@ public class Supplier extends ProvGenerator {
 		model.add(actor5.createModel());
 		model.add(actor6.createModel());
 		model.add(actor7.createModel());
-		
 	}
 	
 	@Override

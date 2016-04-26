@@ -28,7 +28,6 @@ public class Date extends ProvGenerator {
 	String provenanceIdentifier;
 	
 	public Date() {
-		
 		model = ModelFactory.createDefaultModel();
 		
 		Actor actor1 = new Person();
@@ -51,7 +50,6 @@ public class Date extends ProvGenerator {
 		
 		provenanceIdentifier = entity5.getSubject().toString();
 		
-		
 		model.add(source1.createModel());
 		model.add(cleaner1.createModel());
 		model.add(cleaner2.createModel());
@@ -67,7 +65,6 @@ public class Date extends ProvGenerator {
 		model.add(actor4.createModel());
 		model.add(actor5.createModel());
 		model.add(actor6.createModel());
-		
 	}
 	
 	@Override

@@ -3,10 +3,7 @@ package dk.aau.cs.SSB.provGenerator;
 import dk.aau.cs.SSB.schema.Schema;
 
 public class ProvenanceBuilder {
-	
-
 	private ProvenanceBuilder() {}
-	
 
 	public static ProvGenerator build(Schema schema) {
 		String name = schema.getIdentifierName();
@@ -24,9 +21,5 @@ public class ProvenanceBuilder {
 		} else {
 			return null;
 		}
-		
-		
 	}
-	
-
 }

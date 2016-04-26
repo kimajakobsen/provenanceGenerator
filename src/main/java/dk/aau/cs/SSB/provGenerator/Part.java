@@ -26,7 +26,6 @@ public class Part extends ProvGenerator {
 	String provenanceIdentifier;
 	
 	public Part() {
-		
 		model = ModelFactory.createDefaultModel();
 		
 		Actor actor1 = new Person();
@@ -46,7 +45,6 @@ public class Part extends ProvGenerator {
 		
 		provenanceIdentifier = entity3.getSubject().toString();
 		
-		
 		model.add(source1.createModel());
 		model.add(source2.createModel());
 		model.add(cleaner1.createModel());
@@ -58,7 +56,6 @@ public class Part extends ProvGenerator {
 		model.add(actor1.createModel());
 		model.add(actor2.createModel());
 		model.add(actor3.createModel());
-		
 	}
 	
 	@Override

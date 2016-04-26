@@ -26,7 +26,6 @@ public class Customer extends ProvGenerator {
 	String provenanceIdentifier;
 	
 	public Customer() {
-		
 		model = ModelFactory.createDefaultModel();
 		
 		Actor actor1 = new Person();
@@ -50,7 +49,6 @@ public class Customer extends ProvGenerator {
 		Entity entity5 = new ProvenanceEntity(merge2);
 		provenanceIdentifier = entity5.getSubject().toString();
 		
-		
 		model.add(source1.createModel());
 		model.add(source2.createModel());
 		model.add(source3.createModel());
@@ -66,7 +64,6 @@ public class Customer extends ProvGenerator {
 		model.add(merge2.createModel());
 		model.add(actor1.createModel());
 		model.add(actor2.createModel());
-		
 	}
 	
 	@Override
