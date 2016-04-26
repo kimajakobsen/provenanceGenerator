@@ -44,6 +44,19 @@ public class Lineorder extends ProvGenerator {
 		Activity cleaner5 = new Cleaner(entity4,level5,actor1);
 		Entity entity5 = new ProvenanceEntity(cleaner5);
 		provenanceIdentifier = entity5.getSubject().toString();
+		
+		model.add(source1.createModel());
+		model.add(cleaner1.createModel());
+		model.add(cleaner2.createModel());
+		model.add(cleaner3.createModel());
+		model.add(cleaner4.createModel());
+		model.add(cleaner5.createModel());
+		model.add(entity1.createModel());
+		model.add(entity2.createModel());
+		model.add(entity3.createModel());
+		model.add(entity4.createModel());
+		model.add(entity5.createModel());
+		model.add(actor1.createModel());
 	}
 	
 	@Override
