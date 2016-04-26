@@ -3,6 +3,7 @@ package dk.aau.cs.loader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.jena.rdf.model.Model;
 
@@ -42,17 +43,14 @@ public abstract class AbstractLoader {
 	
 	public long getModelContainerSize() {
 		long size = 0;
-		for (Model model : models.values()) {
-			size += model.size();
+		for (Entry<String, Model> model : models.entrySet()) {
+			//System.out.println(model.getKey() +" has " + model.getValue().size() + " triples");
+			size += model.getValue().size();
 		}
 		return size;
-		
 	}
 	
 	public abstract void run(boolean b);
 	
-	
 	public abstract void loadToTDB(String location);
-	
-	
 }
