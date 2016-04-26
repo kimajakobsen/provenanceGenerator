@@ -107,15 +107,15 @@ public class SSBLoader extends AbstractLoader {
 							object = schema.createLiteralWithType(schemaPropertyIndex,field); 
 							s = ResourceFactory.createStatement(subject, predicate, object);
 							informationResource.add(s);
-						}
-						
-						if (provenance) {
-							ProvGenerator provenanceGenerator = ProvenanceBuilder.build(schema);
-							Model provenanceModel = provenanceGenerator.getProvenanceTriples(s);
-							insertIntoModelContainer(schema.getProvenanceGraphName(), provenanceModel);
-							insertIntoModelContainer(provenanceGenerator.getProvenanceIdentifier(), informationResource);
-						} else {
-							insertIntoModelContainer("", informationResource);
+							
+							if (provenance) {
+								ProvGenerator provenanceGenerator = ProvenanceBuilder.build(schema);
+								Model provenanceModel = provenanceGenerator.getProvenanceTriples(s);
+								insertIntoModelContainer(schema.getProvenanceGraphName(), provenanceModel);
+								insertIntoModelContainer(provenanceGenerator.getProvenanceIdentifier(), informationResource);
+							} else {
+								insertIntoModelContainer("", informationResource);
+							}
 						}
 						schemaPropertyIndex++;
 					}
