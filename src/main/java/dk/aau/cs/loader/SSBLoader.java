@@ -31,9 +31,6 @@ import dk.aau.cs.main.Config;
 
 public class SSBLoader extends AbstractLoader {
 
-	public SSBLoader(String file) {
-		super(file);
-	}
 	
 	public SSBLoader(List<String> files) {
 		super(files);
@@ -75,6 +72,7 @@ public class SSBLoader extends AbstractLoader {
 		insertIntoModelContainer(Config.getCubeStructureGraphName(), cubeStructure);
 
 		for (String csvFile : files) {
+			System.out.println("reading file "+csvFile);
 			try {
 				bufferReader = new BufferedReader(new FileReader(csvFile));
 				Schema schema = new SchemaBuilder().build(csvFile);
@@ -84,8 +82,10 @@ public class SSBLoader extends AbstractLoader {
 				//cubeStructure = qb4olapGenerator.getStructureTriples();
 				//insertIntoModelContainer(schema.getCubeStructureGraphName(), cubeStructure);
 				
-				
+				int linenumber = 0;
 				while ((rawLine = bufferReader.readLine()) != null) {
+					System.out.println(linenumber);
+					linenumber++;
 					String[] line = rawLine.split(cvsSplitBy);
 					Resource subject = schema.getIRI(line);
 					
@@ -119,12 +119,14 @@ public class SSBLoader extends AbstractLoader {
 						}
 						schemaPropertyIndex++;
 					}
-					if (getModelContainerSize() > Config.getBatchSize()) {
-						loadToTDB(Config.getDatabasePath());
-						resetModelContainer();
-						
-					}
+					
+//					if (getModelContainerSize() > Config.getBatchSize()) {
+//						loadToTDB(Config.getDatabasePath());
+//						resetModelContainer();
+//					}
 				}
+				loadToTDB(Config.getDatabasePath());
+				resetModelContainer();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -141,7 +143,7 @@ public class SSBLoader extends AbstractLoader {
 				}
 			}
 		}
-		loadToTDB(Config.getDatabasePath());
+		
 	}
 
 }

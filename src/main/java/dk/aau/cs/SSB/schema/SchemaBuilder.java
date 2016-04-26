@@ -8,15 +8,15 @@ public class SchemaBuilder {
 		
 		file = getFileNameWithoutExtension(file).toLowerCase();
 		
-		if (file.equals("customer")) {
+		if (file.startsWith("customer")) {
 			return new Customer();
-		} else if (file.equals("supplier")) {
+		} else if (file.startsWith("supplier")) {
 			return new Supplier();
-		} else if (file.equals("lineorder")) {
+		} else if (file.startsWith("lineorder")) {
 			return new Lineorder();
-		} else if (file.equals("part")) {
+		} else if (file.startsWith("part")) {
 			return new Part();
-		} else if (file.equals("date")) {
+		} else if (file.startsWith("date")) {
 			return new Date();
 		} else {
 			throw new InvalidNameException("the schema "+file+" is not known. Please use customer, supplier, lineorder, part, or date.");

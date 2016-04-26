@@ -1,5 +1,6 @@
 package dk.aau.cs.loader;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +17,23 @@ public abstract class AbstractLoader {
 		return files;
 	}
 
-	public AbstractLoader(String file) {
-		files.add(file);
+	public AbstractLoader(List<String> files) {
+		this.files = addFilesInFolder(files);
 	}
 	
-	public AbstractLoader(List<String> files) {
-		this.files = files;
+	private List<String> addFilesInFolder(List<String> files) {
+		List<String> result = new ArrayList<String>();
+		for (String string : files) {
+			File file = new File(string);
+			if (file.isDirectory()) {
+				for (final File fileEntry : file.listFiles()) {
+					result.add(fileEntry.toString());
+			    }
+			} else {
+				result.add(string);
+			}
+		}
+		return result;
 	}
 	
 	public HashMap<String,Model> getModelContainer() {
