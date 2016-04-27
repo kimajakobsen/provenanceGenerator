@@ -53,7 +53,6 @@ public class App
 				System.exit(0);
 		    } else {
 		    	Config.setDatabasePath(line.getOptionValue("output"));
-		    	Config.setBatchSize(5000);
 		    }
 		    
 		    if (line.hasOption( "load" )) {

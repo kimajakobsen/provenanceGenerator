@@ -31,7 +31,6 @@ import dk.aau.cs.main.Config;
 
 public class SSBLoader extends AbstractLoader {
 
-	
 	public SSBLoader(List<String> files) {
 		super(files);
 	}
@@ -82,10 +81,7 @@ public class SSBLoader extends AbstractLoader {
 				//cubeStructure = qb4olapGenerator.getStructureTriples();
 				//insertIntoModelContainer(schema.getCubeStructureGraphName(), cubeStructure);
 				
-				int linenumber = 0;
 				while ((rawLine = bufferReader.readLine()) != null) {
-					System.out.println(linenumber);
-					linenumber++;
 					String[] line = rawLine.split(cvsSplitBy);
 					Resource subject = schema.getIRI(line);
 					
