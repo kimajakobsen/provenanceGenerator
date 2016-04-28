@@ -23,7 +23,7 @@ public class Cleaner extends Activity {
 
 	@Override
 	public Model createModel() {
-		model.add(activitySubject,RDF.type,PROV.Entity); 
+		model.add(activitySubject,RDF.type,PROV.Activity); 
 		model.add(activitySubject,PROV.used,source.getSubject());
 		model.add(activitySubject,PROV.startedAtTime,getStartTime());
 		model.add(activitySubject,PROV.endedAtTime,getFinishTime());

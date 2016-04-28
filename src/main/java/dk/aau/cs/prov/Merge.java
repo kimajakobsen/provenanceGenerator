@@ -24,7 +24,7 @@ public class Merge extends Activity {
 
 	@Override
 	public Model createModel() {
-		model.add(activitySubject,RDF.type,PROV.Entity); 
+		model.add(activitySubject,RDF.type,PROV.Activity); 
 		model.add(activitySubject,PROV.used,source1.getSubject());
 		model.add(activitySubject,PROV.used,source2.getSubject());
 		model.add(activitySubject,PROV.startedAtTime,getStartTime());
