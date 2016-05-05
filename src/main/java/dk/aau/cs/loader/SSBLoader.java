@@ -23,8 +23,9 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.tdb.TDBFactory;
 
 import dk.aau.cs.SSB.cubeGenerator.QB4OLAPGenerator;
-import dk.aau.cs.SSB.provGenerator.ProvGenerator;
-import dk.aau.cs.SSB.provGenerator.ProvenanceBuilder;
+import dk.aau.cs.SSB.provGenerator.Granularity;
+import dk.aau.cs.SSB.provGenerator.ProvenanceGenerator;
+import dk.aau.cs.SSB.provGenerator.ProvenanceGeneratorBuilder;
 import dk.aau.cs.SSB.schema.Schema;
 import dk.aau.cs.SSB.schema.SchemaBuilder;
 import dk.aau.cs.main.Config;
@@ -78,12 +79,16 @@ public class SSBLoader extends AbstractLoader {
 				
 				//Get cube metadata triples depending on dimensions
 				QB4OLAPGenerator qb4olapGenerator = new QB4OLAPGenerator(schema);
-				//cubeStructure = qb4olapGenerator.getStructureTriples();
-				//insertIntoModelContainer(schema.getCubeStructureGraphName(), cubeStructure);
+				
+				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(schema, Granularity.SPLIT_ON_ATTRIBUTE, 4);
 				
 				while ((rawLine = bufferReader.readLine()) != null) {
-					String[] line = rawLine.split(cvsSplitBy);
+					String[] line = rawLine.split(cvsSplitBy);                                                                                                            
 					Resource subject = schema.getIRI(line);
+					//System.out.println("Subject: "+subject.toString()+" Attribute: " + line[4]);
+					
+					Model provenanceModel = provenanceGenerator.getProvenanceTriples(line);
+					insertIntoModelContainer(schema.getProvenanceGraphName(), provenanceModel);
 					
 					insertIntoModelContainer(Config.getCubeInstanceGraphName(), qb4olapGenerator.getInstanceTriples(subject));
 					
@@ -94,6 +99,7 @@ public class SSBLoader extends AbstractLoader {
 						Property predicate = schema.getProperty(schemaPropertyIndex);
 						Statement s;
 						RDFNode object;
+						
 						if (!schema.getObjectPropertyName(schemaPropertyIndex).equals("")) { //object
 							 object = ResourceFactory.createResource(Config.getNamespace()+schema.getObjectPropertyName(schemaPropertyIndex)+field+"/"); // objectProperty
 							 s = ResourceFactory.createStatement(subject, predicate, object);
@@ -104,22 +110,10 @@ public class SSBLoader extends AbstractLoader {
 							s = ResourceFactory.createStatement(subject, predicate, object);
 							informationResource.add(s);
 							
-							if (provenance) {
-								ProvGenerator provenanceGenerator = ProvenanceBuilder.build(schema);
-								Model provenanceModel = provenanceGenerator.getProvenanceTriples(s);
-								insertIntoModelContainer(schema.getProvenanceGraphName(), provenanceModel);
-								insertIntoModelContainer(provenanceGenerator.getProvenanceIdentifier(), informationResource);
-							} else {
-								insertIntoModelContainer("", informationResource);
-							}
+							insertIntoModelContainer(provenanceGenerator.getProvenanceIdentifier(s), informationResource);
 						}
 						schemaPropertyIndex++;
 					}
-					
-//					if (getModelContainerSize() > Config.getBatchSize()) {
-//						loadToTDB(Config.getDatabasePath());
-//						resetModelContainer();
-//					}
 				}
 				loadToTDB(Config.getDatabasePath());
 				resetModelContainer();

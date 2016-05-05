@@ -2,24 +2,27 @@ package dk.aau.cs.SSB.provGenerator;
 
 import dk.aau.cs.SSB.schema.Schema;
 
-public class ProvenanceBuilder {
-	private ProvenanceBuilder() {}
+public class ProvenanceGeneratorBuilder {
 
-	public static ProvGenerator build(Schema schema) {
-		String name = schema.getIdentifierName();
-		
-		if (name == "lineorder") {
-			return new Lineorder();
-		} else if (name == "customer") {
-			return new Customer();
-		} else if (name == "date") {
-			return new Date();
-		} else if (name == "supplier") {
-			return new Supplier();
-		} else if (name == "part") {
-			return new Part();
-		} else {
-			return null;
+	public static ProvenanceGenerator build(Schema schema, Granularity type, int attributeIndex) {
+		if (type != Granularity.SPLIT_ON_ATTRIBUTE) {
+			throw new IllegalArgumentException("To many arguments, only SPLIt can have an attribute");
 		}
+		return new Split(schema, attributeIndex);
+	}
+	
+	public static ProvenanceGenerator build(Schema schema, Granularity type) {
+		
+		if (type == Granularity.SPLIT_ON_ATTRIBUTE) {
+			throw new IllegalArgumentException("missing attribute parameter, on which attribute should the provenance be split?");
+		}
+		
+		if (type == Granularity.HIGHEST) {
+			return new Highest(schema);
+		}
+		if (type == Granularity.LOWEST) {
+			return new Lowest(schema);
+		}
+		throw new IllegalArgumentException("unknown type "+type);
 	}
 }

@@ -21,7 +21,6 @@ import org.apache.jena.shared.ConfigException;
 import dk.aau.cs.main.Config;
 
 public abstract class Schema {
-	
 	protected HashMap<Integer, SchemaPropertySet> schema = new HashMap<Integer, SchemaPropertySet>();
 	protected String identifierName;
 	private String namespace = Config.getNamespace();
@@ -32,6 +31,12 @@ public abstract class Schema {
 
 
 	public Resource getIRI(String[] line) {
+		String name = getStringIRI(line);
+		return ResourceFactory.createResource(name);
+	}
+
+
+	public String getStringIRI(String[] line) {
 		String name = namespace+identifierName;
 		for (Entry<Integer, SchemaPropertySet> iterable_element : schema.entrySet()) {
 			if (iterable_element.getValue().isPartOfKey()) {
@@ -39,14 +44,12 @@ public abstract class Schema {
 				name += "_";
 			}
 		}
-		return ResourceFactory.createResource(name.substring(0, name.length()-1)+"/");
+		return name.substring(0, name.length()-1)+"/";
 	}
 
 	public Property getProperty(int index) {
 		return ResourceFactory.createProperty(namespace,schema.get(index).getName());
 	}
-
-
 	
 	public Literal createLiteralWithType(int index, String input) throws InvalidAttributeValueException, ParseException  {
 		String type = schema.get(index).getType();
@@ -88,7 +91,6 @@ public abstract class Schema {
 	}
 	
 	private static Calendar convertToGmt(Calendar cal) {
-
 		Date date = cal.getTime();
 		TimeZone tz = cal.getTimeZone();
 
@@ -139,11 +141,9 @@ public abstract class Schema {
 	public String getObjectPropertyName(int index) {
 		return schema.get(index).getObjectPropertyName();
 	}
-
+	
 	public Property getLevelProperty(int schemaPropertyIndex) {
 		Property predicate = ResourceFactory.createProperty(Config.getNamespace()+getObjectPropertyName(schemaPropertyIndex));
 		return predicate;
 	}
-
-	
 }
