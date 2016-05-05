@@ -11,6 +11,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
 
+import dk.aau.cs.experimentProfile.ExperimentProfile;
+import dk.aau.cs.experimentProfile.ExperimentTest;
 import dk.aau.cs.loader.AbstractLoader;
 import dk.aau.cs.loader.SSBLoader;
 
@@ -30,6 +32,8 @@ public class App
 		options.addOption("f", "fresh", false, "clear the db before output");
 		options.addOption("p", "provenance", false, "generate provenance");
 	
+		ExperimentProfile profile = new ExperimentTest();
+		
 		try {
 		    CommandLine line = parser.parse( options, args );
 		    
@@ -57,7 +61,7 @@ public class App
 		    
 		    if (line.hasOption( "load" )) {
 		    	loader = new SSBLoader(Arrays.asList(line.getOptionValue("load").split(",")));
-		    	loader.run(line.hasOption( "provenance"));
+		    	loader.run(profile);
 		    }
 		}
 		catch( ParseException exp ) {

@@ -28,6 +28,7 @@ import dk.aau.cs.SSB.provGenerator.ProvenanceGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvenanceGeneratorBuilder;
 import dk.aau.cs.SSB.schema.Schema;
 import dk.aau.cs.SSB.schema.SchemaBuilder;
+import dk.aau.cs.experimentProfile.ExperimentProfile;
 import dk.aau.cs.main.Config;
 
 public class SSBLoader extends AbstractLoader {
@@ -62,7 +63,7 @@ public class SSBLoader extends AbstractLoader {
 	         System.out.println(ResultSetFormatter.asText(rs));
 	}
 	
-	public void run (boolean provenance) {
+	public void run (ExperimentProfile profile) {
 		BufferedReader bufferReader = null;
 		String rawLine = "";
 		String cvsSplitBy = "\\|";
@@ -80,7 +81,7 @@ public class SSBLoader extends AbstractLoader {
 				//Get cube metadata triples depending on dimensions
 				QB4OLAPGenerator qb4olapGenerator = new QB4OLAPGenerator(schema);
 				
-				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(schema, Granularity.SPLIT_ON_ATTRIBUTE, 4);
+				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(schema, profile);
 				
 				while ((rawLine = bufferReader.readLine()) != null) {
 					String[] line = rawLine.split(cvsSplitBy);                                                                                                            
@@ -135,5 +136,7 @@ public class SSBLoader extends AbstractLoader {
 		}
 		
 	}
+
+
 
 }

@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 
 import org.apache.jena.rdf.model.Model;
 
+import dk.aau.cs.experimentProfile.ExperimentProfile;
+
 public abstract class AbstractLoader {
 	
 	protected List<String> files = new ArrayList<String>();
@@ -62,7 +64,7 @@ public abstract class AbstractLoader {
 		return size;
 	}
 	
-	public abstract void run(boolean b);
+	public abstract void run(ExperimentProfile profile);
 	
 	public abstract void loadToTDB(String location);
 }

@@ -1,20 +1,25 @@
 package dk.aau.cs.SSB.provGenerator;
 
 import dk.aau.cs.SSB.schema.Schema;
+import dk.aau.cs.experimentProfile.ExperimentProfile;
+import dk.aau.cs.experimentProfile.SchemaGranularity;
 
 public class ProvenanceGeneratorBuilder {
 
 	public static ProvenanceGenerator build(Schema schema, Granularity type, int attributeIndex) {
 		if (type != Granularity.SPLIT_ON_ATTRIBUTE) {
-			throw new IllegalArgumentException("To many arguments, only SPLIt can have an attribute");
+			
 		}
 		return new Split(schema, attributeIndex);
 	}
 	
-	public static ProvenanceGenerator build(Schema schema, Granularity type) {
+	public static ProvenanceGenerator build(Schema schema, ExperimentProfile profile) {
 		
+		SchemaGranularity granularity = profile.getSchemaGranularity(schema.getIdentifierName());
+		Granularity type = granularity.getType();
 		if (type == Granularity.SPLIT_ON_ATTRIBUTE) {
-			throw new IllegalArgumentException("missing attribute parameter, on which attribute should the provenance be split?");
+			int attributeIndex = granularity.getAttributeIndex();
+			return new Split(schema, attributeIndex);
 		}
 		
 		if (type == Granularity.HIGHEST) {
