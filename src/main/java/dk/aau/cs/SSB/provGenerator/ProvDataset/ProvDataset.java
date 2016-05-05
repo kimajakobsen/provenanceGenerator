@@ -1,12 +1,11 @@
-package dk.aau.cs.SSB.provGenerator;
+package dk.aau.cs.SSB.provGenerator.ProvDataset;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Statement;
 
-public abstract class ProvGenerator {
+public abstract class ProvDataset {
 	String nameSpace;
 	
 	public abstract String getProvenanceIdentifier();
 	
-	public abstract Model getProvenanceTriples(Statement s);
+	public abstract Model getProvenanceTriples();
 }

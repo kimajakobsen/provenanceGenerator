@@ -1,11 +1,10 @@
-package dk.aau.cs.SSB.provGenerator;
+package dk.aau.cs.SSB.provGenerator.ProvDataset;
 
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Statement;
 
 import dk.aau.cs.prov.Activity;
 import dk.aau.cs.prov.Actor;
@@ -17,11 +16,11 @@ import dk.aau.cs.prov.Person;
 import dk.aau.cs.prov.ProvenanceEntity;
 import dk.aau.cs.prov.Source;
 
-public class Customer extends ProvGenerator {
+public class Customer extends ProvDataset {
 	
-	Pair<LocalDateTime, LocalDateTime> level1 = IntervalManager.getIntervalLevel(1);
-	Pair<LocalDateTime, LocalDateTime> level2 = IntervalManager.getIntervalLevel(2);
-	Pair<LocalDateTime, LocalDateTime> level3 = IntervalManager.getIntervalLevel(3);
+	Pair<LocalDateTime, LocalDateTime> level1 = IntervalContainer.getIntervalLevel(1);
+	Pair<LocalDateTime, LocalDateTime> level2 = IntervalContainer.getIntervalLevel(2);
+	Pair<LocalDateTime, LocalDateTime> level3 = IntervalContainer.getIntervalLevel(3);
 	Model model;
 	String provenanceIdentifier;
 	
@@ -67,7 +66,7 @@ public class Customer extends ProvGenerator {
 	}
 	
 	@Override
-	public Model getProvenanceTriples(Statement s) {
+	public Model getProvenanceTriples() {
 		return model;
 	}
 

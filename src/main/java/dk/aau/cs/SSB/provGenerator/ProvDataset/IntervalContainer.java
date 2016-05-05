@@ -1,11 +1,11 @@
-package dk.aau.cs.SSB.provGenerator;
+package dk.aau.cs.SSB.provGenerator.ProvDataset;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-public class IntervalManager {
+public class IntervalContainer {
 	private static HashMap<Integer,Pair<LocalDateTime,LocalDateTime>> intervals = 
 				new HashMap<Integer,Pair<LocalDateTime,LocalDateTime>>();
 
