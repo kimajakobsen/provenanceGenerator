@@ -5,7 +5,6 @@ import javax.naming.InvalidNameException;
 public class SchemaBuilder {
 
 	public Schema build(String file) throws InvalidNameException {
-		
 		file = getFileNameWithoutExtension(file).toLowerCase();
 		
 		if (file.startsWith("customer")) {
@@ -21,12 +20,9 @@ public class SchemaBuilder {
 		} else {
 			throw new InvalidNameException("the schema "+file+" is not known. Please use customer, supplier, lineorder, part, or date.");
 		}
-		
-		
 	}
 	
 	private String getFileNameWithoutExtension(String csvFile2) {
-		
 		String[] folderSplit = csvFile2.split("/");
 		String filename = folderSplit[folderSplit.length-1];
 		String[] extensionSplit = filename.split("\\.");
