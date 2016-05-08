@@ -17,7 +17,6 @@ public class Split extends ProvenanceGenerator {
 	
 	public Split(Schema schema, int attribute) {
 		super(schema);
-		this.schema = schema;
 		this.attributeIndex = attribute;
 	}
 
