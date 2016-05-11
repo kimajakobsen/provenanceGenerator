@@ -11,7 +11,7 @@ public class ExperimentTest extends ExperimentProfile {
 		schema.put("customer", customer);
 		SchemaGranularity part = new SchemaGranularity(Granularity.LOWEST);
 		schema.put("part", part);
-		SchemaGranularity supplier = new SchemaGranularity(Granularity.HIGHEST);
+		SchemaGranularity supplier = new SchemaGranularity(Granularity.LOWEST);
 		schema.put("supplier", supplier);
 		SchemaGranularity date = new SchemaGranularity(Granularity.LOWEST);
 		schema.put("date", date);
