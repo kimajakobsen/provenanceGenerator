@@ -23,7 +23,6 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.tdb.TDBFactory;
 
 import dk.aau.cs.SSB.cubeGenerator.QB4OLAPGenerator;
-import dk.aau.cs.SSB.provGenerator.Granularity;
 import dk.aau.cs.SSB.provGenerator.ProvenanceGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvenanceGeneratorBuilder;
 import dk.aau.cs.SSB.schema.Schema;
