@@ -52,4 +52,4 @@ tdb-test/
 
 *.tbl
 
-/sf10000l.zip
+*.zip
