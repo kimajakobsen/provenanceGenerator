@@ -66,5 +66,5 @@ public abstract class AbstractLoader {
 	
 	public abstract void run(ExperimentProfile profile);
 	
-	public abstract void loadToTDB(String location);
+	public abstract void writeToTDB(String location);
 }

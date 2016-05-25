@@ -8,11 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.jena.query.Dataset;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ReadWrite;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -28,6 +24,7 @@ import dk.aau.cs.SSB.provGenerator.ProvenanceGeneratorBuilder;
 import dk.aau.cs.SSB.schema.Schema;
 import dk.aau.cs.SSB.schema.SchemaBuilder;
 import dk.aau.cs.experimentProfile.ExperimentProfile;
+import dk.aau.cs.helper.DatasetMetadata;
 import dk.aau.cs.main.Config;
 
 public class SSBLoader extends AbstractLoader {
@@ -37,7 +34,7 @@ public class SSBLoader extends AbstractLoader {
 	}
 	
 	@Override
-	public void loadToTDB(String location) {
+	public void writeToTDB(String location) {
 		System.out.println("writing "+ getModelContainerSize() +" triples to "+ location);
 		Dataset dataset = TDBFactory.createDataset(location) ;
 		for (Entry<String, Model> entry : getModelContainer().entrySet()) {
@@ -54,43 +51,42 @@ public class SSBLoader extends AbstractLoader {
 		dataset.end();
 	}
 	
-	public void countTriplesInTDB(Dataset dataset) {
-		QueryExecution qExec = QueryExecutionFactory.create(
-	             "select (count(*) as ?count) { GRAPH ?G {?a ?b ?c} }",   dataset);
-	         ResultSet rs = qExec.execSelect() ;
-	         //ResultSetFormatter.out(rs) ;
-	         System.out.println(ResultSetFormatter.asText(rs));
-	}
-	
 	public void run (ExperimentProfile profile) {
 		BufferedReader bufferReader = null;
 		String rawLine = "";
 		String cvsSplitBy = "\\|";
 		
+		DatasetMetadata datasetMetadata = new DatasetMetadata();
+		datasetMetadata.setPath(Config.getDatabasePath());
+		
 		//Get cube metadata triples
 		Model cubeStructure = QB4OLAPGenerator.getStructureTriples();
 		insertIntoModelContainer(Config.getCubeStructureGraphName(), cubeStructure);
+		datasetMetadata.setNumberOfStructureMetadataTriples(cubeStructure);
 
 		for (String csvFile : files) {
 			System.out.println("reading file "+csvFile);
 			try {
 				bufferReader = new BufferedReader(new FileReader(csvFile));
 				Schema schema = new SchemaBuilder().build(csvFile);
+				datasetMetadata.setGranularity(schema,profile);
 				
 				//Get cube metadata triples depending on dimensions
 				QB4OLAPGenerator qb4olapGenerator = new QB4OLAPGenerator(schema);
-				
 				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(schema, profile);
 				
 				while ((rawLine = bufferReader.readLine()) != null) {
 					String[] line = rawLine.split(cvsSplitBy);                                                                                                            
 					Resource subject = schema.getIRI(line);
+					datasetMetadata.incrementNumberOfFacts(schema);
 					//System.out.println("Subject: "+subject.toString()+" Attribute: " + line[4]);
 					
 					Model provenanceModel = provenanceGenerator.getProvenanceTriples(line);
 					insertIntoModelContainer(schema.getProvenanceGraphName(), provenanceModel);
+					datasetMetadata.setNumberOfProvenanceTriples(schema,provenanceModel);
 					
-					insertIntoModelContainer(Config.getCubeInstanceGraphName(), qb4olapGenerator.getInstanceTriples(subject));
+					Model instanceMetadataModel = qb4olapGenerator.getInstanceTriples(subject);
+					insertIntoModelContainer(Config.getCubeInstanceGraphName(), instanceMetadataModel);
 					
 					int schemaPropertyIndex = 0;
 					for (String field : line) {
@@ -105,17 +101,20 @@ public class SSBLoader extends AbstractLoader {
 							 s = ResourceFactory.createStatement(subject, predicate, object);
 							 cubeInstanceMetadata.add(s);
 							 insertIntoModelContainer(Config.getCubeInstanceGraphName(), cubeInstanceMetadata);
+							 datasetMetadata.addNumberOfInstanceMetadataTriples(cubeInstanceMetadata.size());
 						} else { // Literal
 							object = schema.createLiteralWithType(schemaPropertyIndex,field); 
 							s = ResourceFactory.createStatement(subject, predicate, object);
 							informationResource.add(s);
-							
-							insertIntoModelContainer(provenanceGenerator.getProvenanceIdentifier(s), informationResource);
+							String provenanceIdentifier = provenanceGenerator.getProvenanceIdentifier(s);
+							insertIntoModelContainer(provenanceIdentifier, informationResource);
+							datasetMetadata.addNumberOfInformationTriples(schema,informationResource.size());
+							datasetMetadata.addProveanceIdentifier(schema,provenanceIdentifier);
 						}
 						schemaPropertyIndex++;
 					}
 				}
-				loadToTDB(Config.getDatabasePath());
+				writeToTDB(Config.getDatabasePath());
 				resetModelContainer();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -133,9 +132,7 @@ public class SSBLoader extends AbstractLoader {
 				}
 			}
 		}
-		
+		System.out.println("done");
+		datasetMetadata.writeToDatabase();
 	}
-
-
-
 }

@@ -11,6 +11,8 @@ public class Config {
 	private static boolean fresh = false;
 	private static String databasePath = null;
 	private static int batchSize;
+	private static String username;
+	private static String password;
 
 	public static String getNamespace() {
 		return namespace;
@@ -58,7 +60,7 @@ public class Config {
 	}
 	
 	public static String getDatabasePath() {
-		return databasePath;
+		return Config.databasePath;
 	}
 
 	public static void setBatchSize(int i) {
@@ -66,7 +68,23 @@ public class Config {
 	}
 
 	public static int getBatchSize() {
-		return batchSize;
+		return Config.batchSize;
+	}
+
+	public static String getPsqlUsername() {
+		return Config.username;
+	}
+
+	public static String getPsqlPassword() {
+		return Config.password;
+	}
+
+	public static void setUsername(String optionValue) {
+		Config.username = optionValue;
+	}
+
+	public static void setPassword(String optionValue) {
+		Config.password = optionValue;
 	}
 
 	

@@ -31,6 +31,8 @@ public class App
 		options.addOption("o", "output", true, "save the result to a tdb database");
 		options.addOption("f", "fresh", false, "clear the db before output");
 		options.addOption("p", "provenance", false, "generate provenance");
+		options.addOption("u", "user", true, "localhost psql username");
+		options.addOption("w", "password", true, "localhost psql password");
 	
 		ExperimentProfile profile = new ExperimentTest();
 		
@@ -41,6 +43,14 @@ public class App
 		    	printHelp(null,options);
 		    	System.exit(0);
 			} 
+		    
+		    if (line.hasOption("user")) {
+				Config.setUsername(line.getOptionValue("user"));
+			}
+		    
+		    if (line.hasOption("password")) {
+				Config.setPassword(line.getOptionValue("password"));
+			}
 		    
 		    if (line.hasOption("fresh")) {
 		    	if (line.hasOption( "output" )) {
