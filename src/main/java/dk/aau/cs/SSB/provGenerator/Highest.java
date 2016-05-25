@@ -37,5 +37,4 @@ public class Highest extends ProvenanceGenerator {
 		}
 		return model;
 	}
-
 }

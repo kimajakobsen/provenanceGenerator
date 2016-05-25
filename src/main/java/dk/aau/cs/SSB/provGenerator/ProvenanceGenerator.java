@@ -37,5 +37,4 @@ public abstract class ProvenanceGenerator {
 			throw new IllegalArgumentException("unknown schema indentifier name "+identifierName);
 		}
 	}
-
 }
