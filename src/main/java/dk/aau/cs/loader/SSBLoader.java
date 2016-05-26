@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -60,6 +62,7 @@ public class SSBLoader extends AbstractLoader {
 		datasetMetadata.setPath(Config.getDatabasePath());
 		
 		//Get cube metadata triples
+		Instant start = Instant.now();
 		Model cubeStructure = QB4OLAPGenerator.getStructureTriples();
 		insertIntoModelContainer(Config.getCubeStructureGraphName(), cubeStructure);
 		datasetMetadata.setNumberOfStructureMetadataTriples(cubeStructure);
@@ -132,6 +135,7 @@ public class SSBLoader extends AbstractLoader {
 				}
 			}
 		}
+		datasetMetadata.setGenerationDuration(Duration.between(start, Instant.now()));
 		System.out.println("done");
 		datasetMetadata.writeToDatabase();
 	}

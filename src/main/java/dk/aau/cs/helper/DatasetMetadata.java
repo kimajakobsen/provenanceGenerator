@@ -3,6 +3,7 @@ package dk.aau.cs.helper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.time.Duration;
 import java.util.HashSet;
 
 import org.apache.jena.rdf.model.Model;
@@ -19,6 +20,7 @@ public class DatasetMetadata {
 	int contextValues;
 	long instanceMetadataTriples;
 	long structureMetadataTriples;
+	private Duration generationDuration;
 	
 	String lineorderGranularity;
 	int lineorderInformationTriples;
@@ -44,6 +46,7 @@ public class DatasetMetadata {
 	int dateInformationTriples;
 	long dateProvenanceTriples;
 	HashSet<String> dateContextValues = new HashSet<String>();
+	
 
 	public void writeToDatabase() {
 		Connection c = null;
@@ -63,7 +66,8 @@ public class DatasetMetadata {
 	        	facts+","+
 	        	getTotalNumberOfInformationTriples()+","+
 	        	getTotalNumberOfProvenanceTriples()+","+
-	        	getTotalNumberOfContextValues()+",'"+
+	        	getTotalNumberOfContextValues()+","+
+	        	generationDuration.toMillis()+",'"+
 	        	lineorderGranularity+"',"+
 	        	lineorderContextValues.size()+","+
 	        	lineorderInformationTriples+","+
@@ -182,5 +186,9 @@ public class DatasetMetadata {
 
 	public void addNumberOfInstanceMetadataTriples(long size) {
 		instanceMetadataTriples += size;
+	}
+
+	public void setGenerationDuration(Duration between) {
+		this.generationDuration = between;
 	}
 }
