@@ -116,9 +116,14 @@ public class SSBLoader extends AbstractLoader {
 						}
 						schemaPropertyIndex++;
 					}
+					//System.out.println(getModelContainerSize());
+					if (getModelContainerSize() > Config.getBatchSize()) {
+						writeToTDB(Config.getDatabasePath());
+						resetModelContainer();
+					}
 				}
-				writeToTDB(Config.getDatabasePath());
-				resetModelContainer();
+//				writeToTDB(Config.getDatabasePath());
+//				resetModelContainer();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
