@@ -15,7 +15,6 @@ public class Config {
 	private static int batchSize;
 	private static String username;
 	private static String password;
-	private static ArrayList<String> precentages = new ArrayList<String>();
 
 	public static String getNamespace() {
 		return namespace;
@@ -88,15 +87,5 @@ public class Config {
 
 	public static void setPassword(String optionValue) {
 		Config.password = optionValue;
-	}
-
-	public static void addProvenanceQuerySplitPercentages(String persentages) {
-		for (String percentage : persentages.split(",")) {
-			Config.precentages.add(percentage);
-		}
-	}
-	
-	public static ArrayList<String> getProvenanceQuerySplitPercentages() {
-		return Config.precentages;
 	}
 }

@@ -30,7 +30,6 @@ public class App
 		options.addOption("l", "load", true, "load specified file");
 		options.addOption("o", "output", true, "save the result to a tdb database");
 		options.addOption("f", "fresh", false, "clear the db before output");
-		options.addOption("p", "provenanceQueries", true, "generate provenance context values of a given percentage");
 		options.addOption("u", "user", true, "localhost psql username");
 		options.addOption("w", "password", true, "localhost psql password");
 		options.addOption("b", "batch", true, "size of batches that are saved to disk");
@@ -51,10 +50,6 @@ public class App
 		    
 		    if (line.hasOption("user")) {
 				Config.setUsername(line.getOptionValue("user"));
-			}
-		    
-		    if (line.hasOption("provenanceQueries")) {
-				Config.addProvenanceQuerySplitPercentages(line.getOptionValue("provenanceQueries"));
 			}
 		    
 		    if (line.hasOption("password")) {
