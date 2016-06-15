@@ -1,7 +1,5 @@
 package dk.aau.cs.main;
 
-import java.util.ArrayList;
-
 import org.apache.jena.shared.ConfigException;
 
 public class Config {
