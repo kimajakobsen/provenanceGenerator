@@ -53,3 +53,10 @@ tdb-test/
 *.tbl
 
 *.zip
+
+*.dat
+*.idn
+*.dat-jrnl
+*.lock
+*.jrnl
+*.ser
