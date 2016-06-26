@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Statement;
 
-import dk.aau.cs.SSB.provGenerator.ProvDataset.ProvDataset;
+import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.ProvDataset;
 import dk.aau.cs.SSB.schema.Schema;
 
 public class Split extends ProvenanceGenerator {

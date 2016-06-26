@@ -1,4 +1,4 @@
-package dk.aau.cs.SSB.provGenerator.ProvDataset;
+package dk.aau.cs.SSB.provGenerator.ProvDatasetLarge;
 
 import org.apache.jena.rdf.model.Model;
 

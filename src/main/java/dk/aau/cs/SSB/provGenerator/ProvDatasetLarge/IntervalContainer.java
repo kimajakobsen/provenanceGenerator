@@ -1,4 +1,4 @@
-package dk.aau.cs.SSB.provGenerator.ProvDataset;
+package dk.aau.cs.SSB.provGenerator.ProvDatasetLarge;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
