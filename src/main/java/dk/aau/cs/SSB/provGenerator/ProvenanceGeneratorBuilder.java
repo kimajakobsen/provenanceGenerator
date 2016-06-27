@@ -1,5 +1,7 @@
 package dk.aau.cs.SSB.provGenerator;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import dk.aau.cs.SSB.schema.Schema;
 import dk.aau.cs.experimentProfile.ExperimentProfile;
 import dk.aau.cs.experimentProfile.SchemaGranularity;
@@ -8,7 +10,7 @@ public class ProvenanceGeneratorBuilder {
 
 	public static ProvenanceGenerator build(Schema schema, Granularity type, int attributeIndex) {
 		if (type != Granularity.SPLIT_ON_ATTRIBUTE) {
-			
+			throw new NotImplementedException("If clause not implemented");
 		}
 		return new Split(schema, attributeIndex);
 	}
