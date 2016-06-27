@@ -1,9 +1,11 @@
 package dk.aau.cs.helper;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.time.Duration;
+import java.util.Calendar;
 import java.util.HashSet;
 
 import org.apache.jena.rdf.model.Model;
@@ -61,33 +63,7 @@ public class DatasetMetadata {
 	        stmt.executeUpdate(sql);
 	        c.commit();
 		    
-	        sql = "INSERT INTO Dataset VALUES ('"+
-	        	path+"',"+
-	        	facts+","+
-	        	getTotalNumberOfInformationTriples()+","+
-	        	getTotalNumberOfProvenanceTriples()+","+
-	        	getTotalNumberOfContextValues()+","+
-	        	generationDuration.toMillis()+",'"+
-	        	lineorderGranularity+"',"+
-	        	lineorderContextValues.size()+","+
-	        	lineorderInformationTriples+","+
-	        	lineorderProvenanceTriples+",'"+
-	        	customerGranularity+"',"+
-	        	customerContextValues.size()+","+
-	        	customerInformationTriples+","+
-	        	customerProvenanceTriples+",'"+
-	        	partGranularity+"',"+
-	        	partContextValues.size()+","+
-	        	partInformationTriples+","+
-	        	partProvenanceTriples+",'"+
-	        	supplierGranularity+"',"+
-	        	supplierContextValues.size()+","+
-	        	supplierInformationTriples+","+
-	        	supplierProvenanceTriples+",'"+
-	        	dateGranularity+"',"+
-	        	dateContextValues.size()+","+
-	        	dateInformationTriples+","+
-	        	dateProvenanceTriples+")";
+	        sql = getQuery();
 	        	
 	        System.out.println(sql);
 	        stmt.executeUpdate(sql);
@@ -99,6 +75,38 @@ public class DatasetMetadata {
 		    System.exit(0);
 		}
 		System.out.println("Records created successfully");
+	}
+
+	private String getQuery() {
+		String sql;
+		sql = "INSERT INTO Dataset VALUES ('"+
+			path+"',"+
+			facts+","+
+			getTotalNumberOfInformationTriples()+","+
+			getTotalNumberOfProvenanceTriples()+","+
+			getTotalNumberOfContextValues()+","+
+			generationDuration.toMillis()+",'"+
+			lineorderGranularity+"',"+
+			lineorderContextValues.size()+","+
+			lineorderInformationTriples+","+
+			lineorderProvenanceTriples+",'"+
+			customerGranularity+"',"+
+			customerContextValues.size()+","+
+			customerInformationTriples+","+
+			customerProvenanceTriples+",'"+
+			partGranularity+"',"+
+			partContextValues.size()+","+
+			partInformationTriples+","+
+			partProvenanceTriples+",'"+
+			supplierGranularity+"',"+
+			supplierContextValues.size()+","+
+			supplierInformationTriples+","+
+			supplierProvenanceTriples+",'"+
+			dateGranularity+"',"+
+			dateContextValues.size()+","+
+			dateInformationTriples+","+
+			dateProvenanceTriples+")";
+		return sql;
 	}
 
 	public void setNumberOfProvenanceTriples(Schema schema, Model provenanceModel) {
@@ -190,5 +198,18 @@ public class DatasetMetadata {
 
 	public void setGenerationDuration(Duration between) {
 		this.generationDuration = between;
+	}
+
+	public void writeToFile() {
+		PrintWriter writer;
+		try {
+			System.out.println(String.valueOf(Calendar.getInstance().getTime().getTime()));
+			writer = new PrintWriter(String.valueOf(Calendar.getInstance().getTime().getTime()), "UTF-8");
+			String query = getQuery();
+			writer.println(query);
+		    writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -13,6 +13,7 @@ public class Config {
 	private static int batchSize;
 	private static String username;
 	private static String password;
+	private static boolean writeToDatabase;
 
 	public static String getNamespace() {
 		return namespace;
@@ -81,9 +82,18 @@ public class Config {
 
 	public static void setUsername(String optionValue) {
 		Config.username = optionValue;
+		Config.writeToDatabase = true;
 	}
 
 	public static void setPassword(String optionValue) {
 		Config.password = optionValue;
+	}
+
+	public static boolean isWriteToDatabase() {
+		if (Config.writeToDatabase) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

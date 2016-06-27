@@ -144,6 +144,11 @@ public class SSBLoader extends AbstractLoader {
 		writeToTDB(Config.getDatabasePath());
 		datasetMetadata.setGenerationDuration(Duration.between(start, Instant.now()));
 		System.out.println("done");
-		datasetMetadata.writeToDatabase();
+		if (Config.isWriteToDatabase()) {
+			datasetMetadata.writeToDatabase();
+		} else {
+			datasetMetadata.writeToFile();
+		}
+		
 	}
 }
