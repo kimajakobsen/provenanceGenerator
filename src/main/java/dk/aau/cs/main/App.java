@@ -11,8 +11,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.FileUtils;
 
+import dk.aau.cs.experimentProfile.ExperimentMinimalProvenanceGraph;
 import dk.aau.cs.experimentProfile.ExperimentProfile;
-import dk.aau.cs.experimentProfile.ExperimentTest;
 import dk.aau.cs.loader.AbstractLoader;
 import dk.aau.cs.loader.SSBLoader;
 
@@ -23,6 +23,7 @@ public class App
 		// create the command line parser
 		CommandLineParser parser = new DefaultParser();
 		AbstractLoader loader = null;
+		ExperimentProfile profile = new ExperimentMinimalProvenanceGraph();
 	
 		// create the Options
 		Options options = new Options();
@@ -33,9 +34,8 @@ public class App
 		options.addOption("u", "user", true, "localhost psql username");
 		options.addOption("w", "password", true, "localhost psql password");
 		options.addOption("b", "batch", true, "size of batches that are saved to disk");
+		options.addOption("p", "provenanceGraphSize", true, "The size of the provenance template (minumum,large)");
 	
-		ExperimentProfile profile = new ExperimentTest();
-		
 		try {
 		    CommandLine line = parser.parse( options, args );
 		    
@@ -43,6 +43,14 @@ public class App
 		    	printHelp(null,options);
 		    	System.exit(0);
 			} 
+		    
+		    if (line.hasOption("provenanceGraphSize")) {
+		    	//Default is large graph
+		    	System.out.println(line.getOptionValue("provenanceGraphSize"));
+				if (line.getOptionValue("provenanceGraphSize").equals("minimum")) {
+					profile = new ExperimentMinimalProvenanceGraph();
+				}
+			}
 		    
 		    if (line.hasOption("batch")) {
 				Config.setBatchSize(Integer.valueOf(line.getOptionValue("batch")));

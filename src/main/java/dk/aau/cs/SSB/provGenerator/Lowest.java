@@ -10,8 +10,8 @@ public class Lowest extends ProvenanceGenerator {
 	private ProvDataset provdataset;
 	private String provenanceIndentifier = "";
 
-	public Lowest(Schema schema) {
-		super(schema);
+	public Lowest(ProvenanceTripleGraphSize graphSize, Schema schema) {
+		super(schema, graphSize);
 	}
 
 	@Override

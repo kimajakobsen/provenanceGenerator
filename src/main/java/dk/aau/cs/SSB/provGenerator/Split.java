@@ -15,8 +15,8 @@ public class Split extends ProvenanceGenerator {
 	private Map<String, Model> attributeToModel = new HashMap<String, Model>();
 	private Map<String, String> subjectToAttribute = new HashMap<String, String>();
 	
-	public Split(Schema schema, int attribute) {
-		super(schema);
+	public Split(ProvenanceTripleGraphSize graphSize ,Schema schema, int attribute) {
+		super(schema, graphSize);
 		this.attributeIndex = attribute;
 	}
 

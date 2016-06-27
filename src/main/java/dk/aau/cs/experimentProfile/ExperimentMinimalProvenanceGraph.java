@@ -4,9 +4,9 @@ import dk.aau.cs.SSB.provGenerator.Granularity;
 import dk.aau.cs.SSB.provGenerator.MinimalProvenanceGraph;
 import dk.aau.cs.SSB.provGenerator.ProvenanceTripleGraphSize;
 
-public class ExperimentLargeProvenanceGraph extends ExperimentProfile {
+public class ExperimentMinimalProvenanceGraph extends ExperimentProfile {
 
-	public ExperimentLargeProvenanceGraph() {
+	public ExperimentMinimalProvenanceGraph() {
 		SchemaGranularity lineorder = new SchemaGranularity(Granularity.SPLIT_ON_ATTRIBUTE,2);
 		schema.put("lineorder", lineorder);
 		SchemaGranularity customer = new SchemaGranularity(Granularity.LOWEST);

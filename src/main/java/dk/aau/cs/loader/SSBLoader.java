@@ -23,6 +23,7 @@ import org.apache.jena.tdb.TDBFactory;
 import dk.aau.cs.SSB.cubeGenerator.QB4OLAPGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvenanceGenerator;
 import dk.aau.cs.SSB.provGenerator.ProvenanceGeneratorBuilder;
+import dk.aau.cs.SSB.provGenerator.ProvenanceTripleGraphSize;
 import dk.aau.cs.SSB.schema.Schema;
 import dk.aau.cs.SSB.schema.SchemaBuilder;
 import dk.aau.cs.experimentProfile.ExperimentProfile;
@@ -76,7 +77,8 @@ public class SSBLoader extends AbstractLoader {
 				
 				//Get cube metadata triples depending on dimensions
 				QB4OLAPGenerator qb4olapGenerator = new QB4OLAPGenerator(schema);
-				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(schema, profile);
+				ProvenanceTripleGraphSize graphSize = profile.getProvenanceGraphSize();
+				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(graphSize ,schema, profile);
 				
 				while ((rawLine = bufferReader.readLine()) != null) {
 					String[] line = rawLine.split(cvsSplitBy);                                                                                                            

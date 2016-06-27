@@ -16,8 +16,8 @@ import dk.aau.cs.SSB.schema.Schema;
 public class Highest extends ProvenanceGenerator {
 	private Map<String, String> subjectToAttribute = new HashMap<String, String>();
 
-	public Highest(Schema schema) {
-		super(schema);
+	public Highest(ProvenanceTripleGraphSize graphSize, Schema schema) {
+		super(schema, graphSize);
 	}
 
 	@Override
