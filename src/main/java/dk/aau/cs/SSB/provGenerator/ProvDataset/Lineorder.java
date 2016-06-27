@@ -1,4 +1,4 @@
-package dk.aau.cs.SSB.provGenerator.ProvDatasetLarge;
+package dk.aau.cs.SSB.provGenerator.ProvDataset;
 
 import java.time.LocalDateTime;
 
@@ -11,13 +11,13 @@ import dk.aau.cs.prov.Actor;
 import dk.aau.cs.prov.Cleaner;
 import dk.aau.cs.prov.Entity;
 import dk.aau.cs.prov.Organization;
-import dk.aau.cs.prov.Person;
 import dk.aau.cs.prov.ProvenanceEntity;
-import dk.aau.cs.prov.SoftwareAgent;
 import dk.aau.cs.prov.Source;
 
-public class Date extends ProvDataset {
-	
+
+
+public class Lineorder extends ProvDataset {
+
 	Pair<LocalDateTime, LocalDateTime> level1 = IntervalContainer.getIntervalLevel(1);
 	Pair<LocalDateTime, LocalDateTime> level2 = IntervalContainer.getIntervalLevel(2);
 	Pair<LocalDateTime, LocalDateTime> level3 = IntervalContainer.getIntervalLevel(3);
@@ -26,27 +26,22 @@ public class Date extends ProvDataset {
 	Model model;
 	String provenanceIdentifier;
 	
-	public Date() {
+	public Lineorder() {
 		model = ModelFactory.createDefaultModel();
 		
-		Actor actor1 = new Person();
-		Actor actor4 = new Organization();
-		Actor actor5 = new SoftwareAgent();
-		Actor actor6 = new SoftwareAgent();
-		
-		Entity source1 = new Source(actor4);
+		Actor actor1 = new Organization();
+		Entity source1 = new Source(actor1);
 		
 		Activity cleaner1 = new Cleaner(source1,level1,actor1);
 		Entity entity1 = new ProvenanceEntity(cleaner1);
-		Activity cleaner2 = new Cleaner(entity1,level2,actor5);
+		Activity cleaner2 = new Cleaner(entity1,level2,actor1);
 		Entity entity2 = new ProvenanceEntity(cleaner2);
-		Activity cleaner3 = new Cleaner(entity1,level3,actor6);
+		Activity cleaner3 = new Cleaner(entity2,level3,actor1);
 		Entity entity3 = new ProvenanceEntity(cleaner3);
-		Activity cleaner4 = new Cleaner(entity1,level4,actor6);
+		Activity cleaner4 = new Cleaner(entity3,level4,actor1);
 		Entity entity4 = new ProvenanceEntity(cleaner4);
-		Activity cleaner5 = new Cleaner(entity1,level5,actor5);
+		Activity cleaner5 = new Cleaner(entity4,level5,actor1);
 		Entity entity5 = new ProvenanceEntity(cleaner5);
-		
 		provenanceIdentifier = entity5.getSubject().toString();
 		
 		model.add(source1.createModel());
@@ -61,9 +56,6 @@ public class Date extends ProvDataset {
 		model.add(entity4.createModel());
 		model.add(entity5.createModel());
 		model.add(actor1.createModel());
-		model.add(actor4.createModel());
-		model.add(actor5.createModel());
-		model.add(actor6.createModel());
 	}
 	
 	@Override
@@ -75,4 +67,5 @@ public class Date extends ProvDataset {
 	public String getProvenanceIdentifier() {
 		return provenanceIdentifier;
 	}
+
 }

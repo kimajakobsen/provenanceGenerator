@@ -3,12 +3,12 @@ package dk.aau.cs.SSB.provGenerator;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Statement;
 
-import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.Customer;
-import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.Date;
-import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.Lineorder;
-import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.Part;
-import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.ProvDataset;
-import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.Supplier;
+import dk.aau.cs.SSB.provGenerator.ProvDataset.Customer;
+import dk.aau.cs.SSB.provGenerator.ProvDataset.Date;
+import dk.aau.cs.SSB.provGenerator.ProvDataset.Lineorder;
+import dk.aau.cs.SSB.provGenerator.ProvDataset.Part;
+import dk.aau.cs.SSB.provGenerator.ProvDataset.ProvDataset;
+import dk.aau.cs.SSB.provGenerator.ProvDataset.Supplier;
 import dk.aau.cs.SSB.schema.Schema;
 
 public abstract class ProvenanceGenerator {

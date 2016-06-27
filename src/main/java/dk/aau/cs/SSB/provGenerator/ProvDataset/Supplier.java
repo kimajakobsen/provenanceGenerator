@@ -1,4 +1,4 @@
-package dk.aau.cs.SSB.provGenerator.ProvDatasetLarge;
+package dk.aau.cs.SSB.provGenerator.ProvDataset;
 
 import java.time.LocalDateTime;
 

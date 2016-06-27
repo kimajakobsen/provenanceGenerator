@@ -9,7 +9,7 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 
-import dk.aau.cs.SSB.provGenerator.ProvDatasetLarge.ProvDataset;
+import dk.aau.cs.SSB.provGenerator.ProvDataset.ProvDataset;
 import dk.aau.cs.SSB.schema.Schema;
 
 
