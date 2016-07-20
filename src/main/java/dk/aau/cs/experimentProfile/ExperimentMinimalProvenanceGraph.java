@@ -7,7 +7,7 @@ import dk.aau.cs.SSB.provGenerator.ProvenanceTripleGraphSize;
 public class ExperimentMinimalProvenanceGraph extends ExperimentProfile {
 
 	public ExperimentMinimalProvenanceGraph() {
-		SchemaGranularity lineorder = new SchemaGranularity(Granularity.SPLIT_ON_ATTRIBUTE,2);
+		SchemaGranularity lineorder = new SchemaGranularity(Granularity.LOWEST);
 		schema.put("lineorder", lineorder);
 		SchemaGranularity customer = new SchemaGranularity(Granularity.LOWEST);
 		schema.put("customer", customer);
