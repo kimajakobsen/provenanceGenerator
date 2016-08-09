@@ -5,7 +5,6 @@ import dk.aau.cs.SSB.provGenerator.ProvDataset.ProvDataset;
 
 public class MinimalProvenanceGraph implements ProvenanceTripleGraphSize {
 
-	@Override
 	public ProvDataset getProvenanceDataset(String identifierName) {
 		if (identifierName == "lineorder") {
 			return new AllSimple();

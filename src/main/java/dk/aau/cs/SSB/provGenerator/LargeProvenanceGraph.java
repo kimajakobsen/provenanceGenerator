@@ -9,7 +9,6 @@ import dk.aau.cs.SSB.provGenerator.ProvDataset.Supplier;
 
 public class LargeProvenanceGraph implements ProvenanceTripleGraphSize {
 
-	@Override
 	public ProvDataset getProvenanceDataset(String identifierName) {
 		if (identifierName == "lineorder") {
 			return new Lineorder();
