@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 
 import dk.aau.cs.experimentProfile.ExperimentMinimalProvenanceGraph;
 import dk.aau.cs.experimentProfile.ExperimentProfile;
+import dk.aau.cs.experimentProfile.ExperimentSplitProvenanceGraph;
 import dk.aau.cs.loader.AbstractLoader;
 import dk.aau.cs.loader.SSBLoader;
 
@@ -34,7 +35,7 @@ public class App
 		options.addOption("u", "user", true, "localhost psql username");
 		options.addOption("w", "password", true, "localhost psql password");
 		options.addOption("b", "batch", true, "size of batches that are saved to disk");
-		options.addOption("p", "provenanceGraphSize", true, "The size of the provenance template (minumum,large)");
+		options.addOption("p", "provenanceGraphSize", true, "The size of the provenance template (minumum,large,split)");
 	
 		try {
 		    CommandLine line = parser.parse( options, args );
@@ -49,6 +50,9 @@ public class App
 		    	System.out.println(line.getOptionValue("provenanceGraphSize"));
 				if (line.getOptionValue("provenanceGraphSize").equals("minimum")) {
 					profile = new ExperimentMinimalProvenanceGraph();
+				}
+				else if (line.getOptionValue("provenanceGraphSize").equals("split")) {
+					profile = new ExperimentSplitProvenanceGraph();
 				}
 			}
 		    
