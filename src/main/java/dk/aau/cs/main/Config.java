@@ -63,6 +63,12 @@ public class Config {
 	public static String getDatabasePath() {
 		return Config.databasePath;
 	}
+	
+	public static String getDatabaseName() {
+		String[] split = Config.databasePath.split("/");
+		return split[split.length-1];
+		
+	}
 
 	public static void setBatchSize(int i) {
 		Config.batchSize = i;

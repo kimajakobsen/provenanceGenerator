@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.time.Duration;
-import java.util.Calendar;
 import java.util.HashSet;
 
 import org.apache.jena.rdf.model.Model;
@@ -111,15 +110,15 @@ public class DatasetMetadata {
 
 	public void setNumberOfProvenanceTriples(Schema schema, Model provenanceModel) {
 		if (schema.getIdentifierName().equals("lineorder")) {
-			lineorderProvenanceTriples = provenanceModel.size();
+			lineorderProvenanceTriples += provenanceModel.size();
 		} else if (schema.getIdentifierName().equals("customer")) {
-			customerProvenanceTriples = provenanceModel.size();
+			customerProvenanceTriples += provenanceModel.size();
 		} else if (schema.getIdentifierName().equals("date")) {
-			dateProvenanceTriples = provenanceModel.size();
+			dateProvenanceTriples += provenanceModel.size();
 		} else if (schema.getIdentifierName().equals("part")) {
-			partProvenanceTriples = provenanceModel.size();
+			partProvenanceTriples += provenanceModel.size();
 		} else if (schema.getIdentifierName().equals("supplier")) {
-			supplierProvenanceTriples = provenanceModel.size();
+			supplierProvenanceTriples += provenanceModel.size();
 		}
 	}
 
@@ -203,8 +202,8 @@ public class DatasetMetadata {
 	public void writeToFile() {
 		PrintWriter writer;
 		try {
-			System.out.println(String.valueOf(Calendar.getInstance().getTime().getTime()));
-			writer = new PrintWriter(String.valueOf(Calendar.getInstance().getTime().getTime()), "UTF-8");
+			System.out.println(Config.getDatabaseName());
+			writer = new PrintWriter(Config.getDatabaseName(), "UTF-8");
 			String query = getQuery();
 			writer.println(query);
 		    writer.close();
