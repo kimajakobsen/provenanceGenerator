@@ -60,3 +60,4 @@ tdb-test/
 *.lock
 *.jrnl
 *.ser
+/sf1000
