@@ -10,7 +10,11 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.jena.query.Dataset;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ReadWrite;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -40,20 +44,29 @@ public class SSBLoader extends AbstractLoader {
 	public void writeToTDB(String location) {
 		System.out.println("writing "+ getModelContainerSize() +" triples to "+ location);
 		Dataset dataset = TDBFactory.createDataset(location) ;
+		dataset.begin(ReadWrite.WRITE) ;
+		
 		for (Entry<String, Model> entry : getModelContainer().entrySet()) {
-			dataset.begin(ReadWrite.WRITE) ;
-			//countTriplesInTDB(dataset);
-			
 			Model model = ModelFactory.createDefaultModel();
 			model.add(dataset.getNamedModel(entry.getKey()));
 			model.add(entry.getValue());
 			//System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
 			dataset.addNamedModel(entry.getKey(), model);
-			dataset.commit();
+			model.close();
 		}
+		//countTriplesInTDB(dataset);
+		dataset.commit();
 		dataset.end();
 	}
 	
+	@SuppressWarnings("unused")
+	private void countTriplesInTDB(Dataset dataset) {
+		 String qs1 = "SELECT (count(*) as ?count) where { graph ?g {?s ?p ?o}}" ;
+		 QueryExecution qExec = QueryExecutionFactory.create(qs1, dataset) ;
+	     ResultSet rs = qExec.execSelect() ;
+	     ResultSetFormatter.out(rs) ;
+	}
+
 	public void run (ExperimentProfile profile) {
 		BufferedReader bufferReader = null;
 		String rawLine = "";
@@ -78,7 +91,7 @@ public class SSBLoader extends AbstractLoader {
 				//Get cube metadata triples depending on dimensions
 				QB4OLAPGenerator qb4olapGenerator = new QB4OLAPGenerator(schema);
 				ProvenanceTripleGraphSize graphSize = profile.getProvenanceGraphSize();
-				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(graphSize ,schema, profile);
+				ProvenanceGenerator provenanceGenerator = ProvenanceGeneratorBuilder.build(graphSize ,schema, profile, datasetMetadata);
 				
 				while ((rawLine = bufferReader.readLine()) != null) {
 					String[] line = rawLine.split(cvsSplitBy);                                                                                                            

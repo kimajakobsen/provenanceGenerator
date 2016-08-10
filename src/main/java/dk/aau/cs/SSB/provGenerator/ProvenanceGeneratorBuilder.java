@@ -5,8 +5,10 @@ import org.apache.commons.lang3.NotImplementedException;
 import dk.aau.cs.SSB.schema.Schema;
 import dk.aau.cs.experimentProfile.ExperimentProfile;
 import dk.aau.cs.experimentProfile.SchemaGranularity;
+import dk.aau.cs.helper.DatasetMetadata;
 
 public class ProvenanceGeneratorBuilder {
+	static DatasetMetadata datasetMetadata = null;
 
 	public static ProvenanceGenerator build(ProvenanceTripleGraphSize graphSize, Schema schema, Granularity type, int attributeIndex) {
 		if (type != Granularity.SPLIT_ON_ATTRIBUTE) {
@@ -15,7 +17,8 @@ public class ProvenanceGeneratorBuilder {
 		return new Split(graphSize, schema, attributeIndex);
 	}
 	
-	public static ProvenanceGenerator build(ProvenanceTripleGraphSize graphSize, Schema schema, ExperimentProfile profile) {
+	public static ProvenanceGenerator build(ProvenanceTripleGraphSize graphSize, Schema schema, ExperimentProfile profile, DatasetMetadata datasetMetadata) {
+		ProvenanceGeneratorBuilder.datasetMetadata = datasetMetadata;
 		
 		SchemaGranularity granularity = profile.getSchemaGranularity(schema.getIdentifierName());
 		Granularity type = granularity.getType();
