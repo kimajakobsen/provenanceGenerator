@@ -24,14 +24,17 @@ public class Split extends ProvenanceGenerator {
 	public Model getProvenanceTriples(String[] rawLine) {
 		String attribute = rawLine[attributeIndex];
 		ProvDataset provdataset = getProvenanceDataset(schema.getIdentifierName());
+		
 		if (!attributeToModel.containsKey(attribute)) {
 			Model model = provdataset.getProvenanceTriples();
 			attributeToModel.put(attribute, model);
 			subjectToAttribute.put(schema.getStringIRI(rawLine), provdataset.getProvenanceIdentifier());
 			//System.out.println("Adding the Subject: "+ schema.getStringIRI(rawLine)+" with Attribute "+ attribute +" have the prov identifier: " + provdataset.getProvenanceIdentifier());
+			
 		} else {
 			//System.out.println("The Subject: "+ schema.getStringIRI(rawLine)+" with Attribute "+ attribute +" exists");
 			subjectToAttribute.put(schema.getStringIRI(rawLine), provdataset.getProvenanceIdentifier());
+			
 		}
 		return attributeToModel.get(attribute);
 	}
