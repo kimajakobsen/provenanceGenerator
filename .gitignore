@@ -61,3 +61,4 @@ tdb-test/
 *.jrnl
 *.ser
 /sf1000
+/sf10
