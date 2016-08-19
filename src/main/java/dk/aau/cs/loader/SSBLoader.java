@@ -49,8 +49,11 @@ public class SSBLoader extends AbstractLoader {
 		for (Entry<String, Model> entry : getModelContainer().entrySet()) {
 			Model model = ModelFactory.createDefaultModel();
 			model.add(dataset.getNamedModel(entry.getKey()));
+			//When a large model is loaded into memory (done to ensure that data is not overwritten)
+			System.out.println("loading "+ model.size() + " triples from graph" + entry.getKey());
 			model.add(entry.getValue());
-			//System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
+			System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
+			
 			dataset.addNamedModel(entry.getKey(), model);
 			model.close();
 		}
