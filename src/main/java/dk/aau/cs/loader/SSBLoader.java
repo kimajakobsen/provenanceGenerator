@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -41,18 +42,22 @@ public class SSBLoader extends AbstractLoader {
 	}
 	
 	@Override
-	public void writeToTDB(String location) {
+	public void writeToTDB(String location, HashMap<String,Model> modelContainer) {
 		System.out.println("writing "+ getModelContainerSize() +" triples to "+ location);
 		Dataset dataset = TDBFactory.createDataset(location) ;
 		dataset.begin(ReadWrite.WRITE) ;
 		
-		for (Entry<String, Model> entry : getModelContainer().entrySet()) {
+		for (Entry<String, Model> entry : modelContainer.entrySet()) {
 			Model model = ModelFactory.createDefaultModel();
 			model.add(dataset.getNamedModel(entry.getKey()));
 			//When a large model is loaded into memory (done to ensure that data is not overwritten)
-			System.out.println("loading "+ model.size() + " triples from graph" + entry.getKey());
-			model.add(entry.getValue());
-			System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
+			if (model.size() > 0) {
+				System.out.println("loading "+ model.size() + " triples from graph" + entry.getKey());
+				model.add(entry.getValue());
+				System.out.println("writing "+ model.size() + " triples to graph " + entry.getKey() );
+			} else {
+				model.add(entry.getValue());
+			}
 			
 			dataset.addNamedModel(entry.getKey(), model);
 			model.close();
@@ -136,7 +141,7 @@ public class SSBLoader extends AbstractLoader {
 					}
 					//System.out.println(getModelContainerSize());
 					if (getModelContainerSize() > Config.getBatchSize()) {
-						writeToTDB(Config.getDatabasePath());
+						writeToTDB(Config.getDatabasePath(),getModelContainer());
 						resetModelContainer();
 					}
 				}
@@ -157,7 +162,8 @@ public class SSBLoader extends AbstractLoader {
 				}
 			}
 		}
-		writeToTDB(Config.getDatabasePath());
+		writeToTDB(Config.getDatabasePath(),getModelContainer());
+		writeToTDB(Config.getDatabasePath(),getLargeModelContainer());
 		datasetMetadata.setGenerationDuration(Duration.between(start, Instant.now()));
 		System.out.println("done");
 		if (Config.isWriteToDatabase()) {

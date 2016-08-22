@@ -13,7 +13,9 @@ import dk.aau.cs.experimentProfile.ExperimentProfile;
 public abstract class AbstractLoader {
 	
 	protected List<String> files = new ArrayList<String>();
-	private HashMap<String, Model> models = new HashMap<String,Model>();
+	private HashMap<String, Model> informationTripleModels = new HashMap<String,Model>();
+	private HashMap<String, Model> largeModels = new HashMap<String,Model>();
+	private ArrayList<String> largeGraphNames = new ArrayList<String>();
 
 	public List<String> getFilePaths() {
 		return files;
@@ -21,6 +23,9 @@ public abstract class AbstractLoader {
 
 	public AbstractLoader(List<String> files) {
 		this.files = addFilesInFolder(files);
+		largeGraphNames.add("http://example.com/provenance/");
+		largeGraphNames.add("http://example.com/CubeInstanceMetadata");
+		
 	}
 	
 	private List<String> addFilesInFolder(List<String> files) {
@@ -39,25 +44,38 @@ public abstract class AbstractLoader {
 	}
 	
 	public HashMap<String,Model> getModelContainer() {
-		return models;
+		return informationTripleModels;
+	}
+	
+	public HashMap<String,Model> getLargeModelContainer() {
+		return largeModels;
 	}
 	
 	public void insertIntoModelContainer(String graph, Model model) {
-		if (models.containsKey(graph)) {
-			Model temp = models.get(graph).add(model);
-			models.put(graph, temp);
+		if (largeGraphNames.contains(graph)) {
+			addToModel(graph, model,largeModels);
 		} else {
-			models.put(graph, model);
+			addToModel(graph, model,informationTripleModels);
+		}
+		
+	}
+
+	private void addToModel(String graph, Model model, HashMap<String, Model> store) {
+		if (store.containsKey(graph)) {
+			Model temp = store.get(graph).add(model);
+			store.put(graph, temp);
+		} else {
+			store.put(graph, model);
 		}
 	}
 	
 	public void resetModelContainer() {
-		models.clear();
+		informationTripleModels.clear();
 	}
 	
 	public long getModelContainerSize() {
 		long size = 0;
-		for (Entry<String, Model> model : models.entrySet()) {
+		for (Entry<String, Model> model : informationTripleModels.entrySet()) {
 			//System.out.println(model.getKey() +" has " + model.getValue().size() + " triples");
 			size += model.getValue().size();
 		}
@@ -66,5 +84,5 @@ public abstract class AbstractLoader {
 	
 	public abstract void run(ExperimentProfile profile);
 	
-	public abstract void writeToTDB(String location);
+	public abstract void writeToTDB(String location, HashMap<String,Model> modelContainer);
 }
