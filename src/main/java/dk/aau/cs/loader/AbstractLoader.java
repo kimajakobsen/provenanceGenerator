@@ -69,13 +69,13 @@ public abstract class AbstractLoader {
 		}
 	}
 	
-	public void resetModelContainer() {
-		informationTripleModels.clear();
+	public void resetModelContainer(HashMap<String, Model> modelContainer) {
+		modelContainer.clear();
 	}
 	
-	public long getModelContainerSize() {
+	public long getModelContainerSize(HashMap<String, Model> modelContainer) {
 		long size = 0;
-		for (Entry<String, Model> model : informationTripleModels.entrySet()) {
+		for (Entry<String, Model> model : modelContainer.entrySet()) {
 			//System.out.println(model.getKey() +" has " + model.getValue().size() + " triples");
 			size += model.getValue().size();
 		}

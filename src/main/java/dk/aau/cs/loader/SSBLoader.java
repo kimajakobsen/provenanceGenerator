@@ -43,7 +43,7 @@ public class SSBLoader extends AbstractLoader {
 	
 	@Override
 	public void writeToTDB(String location, HashMap<String,Model> modelContainer) {
-		System.out.println("writing "+ getModelContainerSize() +" triples to "+ location);
+		System.out.println("writing "+ getModelContainerSize(modelContainer) +" triples to "+ location);
 		Dataset dataset = TDBFactory.createDataset(location) ;
 		dataset.begin(ReadWrite.WRITE) ;
 		
@@ -65,6 +65,7 @@ public class SSBLoader extends AbstractLoader {
 		//countTriplesInTDB(dataset);
 		dataset.commit();
 		dataset.end();
+		resetModelContainer(modelContainer);
 	}
 	
 	@SuppressWarnings("unused")
@@ -140,9 +141,8 @@ public class SSBLoader extends AbstractLoader {
 						schemaPropertyIndex++;
 					}
 					//System.out.println(getModelContainerSize());
-					if (getModelContainerSize() > Config.getBatchSize()) {
+					if (getModelContainerSize(getModelContainer()) > Config.getBatchSize()) {
 						writeToTDB(Config.getDatabasePath(),getModelContainer());
-						resetModelContainer();
 					}
 				}
 				
@@ -164,6 +164,7 @@ public class SSBLoader extends AbstractLoader {
 		}
 		writeToTDB(Config.getDatabasePath(),getModelContainer());
 		writeToTDB(Config.getDatabasePath(),getLargeModelContainer());
+		
 		datasetMetadata.setGenerationDuration(Duration.between(start, Instant.now()));
 		System.out.println("done");
 		if (Config.isWriteToDatabase()) {
